@@ -1,0 +1,48 @@
+__USUARIOS__
+id [AI][UNIQUE][PRYMARY_KEY]
+nickName [UNIQUE][VARCHAR=30]
+email [UNIQUE][VARCHAR=50]
+password [VARCHAR=256]
+avatar [VARCHAR=30]
+nombre [VARCHAR=50]
+apellidos [VARCHAR=100]
+
+__DIRECCIONES__
+id [AI][UNIQUE][PRYMARY_KEY]
+idUsuario [FOREIGN_KEY de id/USUARIOS]
+codigoPostal [INT=5]
+localidad [VARCHAR=40]
+direccion [VARCHAR=60]
+numero [INT=3]
+piso [INT=3]
+escalera[VARCHAR=2]
+puerta[INT=3]
+masInfo[VARCHAR=200]
+
+
+__PRODUCTOS__
+id [AI][UNIQUE][PRYMARY_KEY]
+nombre [VARCHAR=100]
+descripcion [VARCHAR=300]
+imagen [VARCHAR=30]
+precio [FLOAT=5,2]
+categorias[VARCHAR=40]
+
+__INFORMACIONNUTRICIONAL__
+id [AI][UNIQUE][PRYMARY_KEY]
+idProducto [FOREIGN_KEY id/PRODUCTOS]
+cantidad [INT=3]
+medida [ENUM='ml','gr']
+grasasTotales[INT=3]
+grasasSaturadas [INT=3]
+grasasMonoInsaturadas[INT=3]
+grasasPoliInsaturadas[INT=3]
+hidratosCarbono[INT=3]
+azucares[INT=3]
+proteinas[INT=3]
+fibra[INT=3]
+sal[INT=3]
+...
+
+
+
