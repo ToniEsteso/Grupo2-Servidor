@@ -60,10 +60,12 @@ CREATE TABLE IF NOT EXISTS `imagenescarousel` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla veganfood.imagenescarousel: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.imagenescarousel: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `imagenescarousel` DISABLE KEYS */;
 INSERT INTO `imagenescarousel` (`id`, `extension`) VALUES
-	(1, NULL);
+	(1, 'jpg'),
+	(2, 'jpg'),
+	(3, 'jpg');
 /*!40000 ALTER TABLE `imagenescarousel` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.informacionnutricional
