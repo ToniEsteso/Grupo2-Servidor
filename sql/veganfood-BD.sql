@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.4.6-MariaDB - mariadb.org binary distribution
+-- Versión del servidor:         10.4.8-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
 -- HeidiSQL Versión:             10.2.0.5599
 -- --------------------------------------------------------
@@ -13,7 +13,7 @@
 
 
 -- Volcando estructura de base de datos para veganfood
-CREATE DATABASE IF NOT EXISTS `veganfood` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `veganfood` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `veganfood`;
 
 -- Volcando estructura para tabla veganfood.categorias
@@ -52,6 +52,18 @@ CREATE TABLE IF NOT EXISTS `direcciones` (
 -- Volcando datos para la tabla veganfood.direcciones: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `direcciones` DISABLE KEYS */;
 /*!40000 ALTER TABLE `direcciones` ENABLE KEYS */;
+
+-- Volcando estructura para tabla veganfood.imagenescarousel
+CREATE TABLE IF NOT EXISTS `imagenescarousel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) DEFAULT NULL,
+  `extension` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla veganfood.imagenescarousel: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `imagenescarousel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `imagenescarousel` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.informacionnutricional
 CREATE TABLE IF NOT EXISTS `informacionnutricional` (
