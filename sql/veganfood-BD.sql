@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 INSERT INTO `categorias` (`id`, `nombre`, `tipo`) VALUES
 	(1, 'Carnes', 'Carnes'),
 	(2, 'Lentejas', 'Legumbres'),
-	(3, 'Lácteos', 'Lacteos');
+	(3, 'Lacteos', 'Lacteos');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.direcciones
