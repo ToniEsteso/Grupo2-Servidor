@@ -22,6 +22,8 @@ Route::get('/categorias', 'CategoriasController@GetAll');
 
 Route::get('/categorias/{categoria}', 'CategoriasController@Get');
 
+Route::get('/categorias/{categoria}/productos', 'CategoriasController@ProductosPorCategoria');
+
 //PRODUCTOS
 Route::get('productos', 'ProductosController@GetAll');
 

@@ -11,9 +11,19 @@ use App\Http\Models\Carousel;
 class CarouselController extends BaseController
 {
     function GetAll(){
-        return Carousel::get();
+        $respuesta = array(
+            "mensaje" => "Todas las imagenes del carousel",
+            "data" => Carousel::get()
+        );
+
+        return $respuesta;
     }
     function Get($id){
-        return Carousel::Where("id", $id)->get();
+        $respuesta = array(
+            "mensaje" => "Imagen del carousel " . $id,
+            "data" => Carousel::Where("id", $id)->get()
+        );
+
+        return $respuesta;
     }
 }

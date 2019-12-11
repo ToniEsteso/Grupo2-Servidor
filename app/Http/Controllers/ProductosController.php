@@ -11,9 +11,19 @@ use App\Http\Models\Productos;
 class ProductosController extends BaseController
 {
     function GetAll(){
-        return Productos::get();
+        $respuesta = array(
+            "mensaje" => "Todos los productos",
+            "data" => Productos::get()
+        );
+
+        return $respuesta;
     }
     function Get($producto){
-        return Productos::Where("nombre", $producto)->get();
+        $respuesta = array(
+            "mensaje" => "Toda la informacion del producto " . $producto,
+            "data" => Productos::Where("nombre", $producto)->get()
+        );
+
+        return $respuesta;
     }
 }

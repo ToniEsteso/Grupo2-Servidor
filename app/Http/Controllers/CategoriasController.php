@@ -8,13 +8,41 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Models\Categorias;
+use App\Http\Models\Productos;
 
 class CategoriasController extends BaseController
 {
     function GetAll(){
-        return Categorias::get();
+        $respuesta = array(
+            "mensaje" => "Todas las categorias",
+            "data" => Categorias::get()
+        );
+
+        return $respuesta;
     }
     function Get($categoria){
-        return Categorias::Where("tipo", $categoria)->get();
+        $respuesta = array(
+            "mensaje" => "Todas las categorias",
+            "data" => Categorias::Where("nombre", $categoria)->get()
+        );
+
+        return $respuesta;
+    }
+    function ProductosPorCategoria($categoria){
+        // $data = DB::table('productos')
+        // ->join('productos_categorias', 'productos.id', '=', 'productos_categorias.idProducto')
+        // ->join('categorias', 'categorias.id', '=', 'productos_categorias.idCategoria')
+        // ->select('productos.*');
+
+        // dd($data);
+        $respuesta = array(
+            "mensaje" => "Todas los productos de la categoria " . $categoria,
+            "data" => DB::table('productos')
+                ->join('productos_categorias', 'productos.id', '=', 'productos_categorias.idProducto')
+                ->join('categorias', 'categorias.id', '=', 'productos_categorias.idCategoria')
+                ->select('productos.*')->get()
+        );
+
+        return $respuesta;
     }
 }
