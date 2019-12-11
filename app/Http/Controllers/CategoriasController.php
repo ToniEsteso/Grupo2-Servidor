@@ -29,17 +29,12 @@ class CategoriasController extends BaseController
         return $respuesta;
     }
     function ProductosPorCategoria($categoria){
-        // $data = DB::table('productos')
-        // ->join('productos_categorias', 'productos.id', '=', 'productos_categorias.idProducto')
-        // ->join('categorias', 'categorias.id', '=', 'productos_categorias.idCategoria')
-        // ->select('productos.*');
-
-        // dd($data);
         $respuesta = array(
             "mensaje" => "Todas los productos de la categoria " . $categoria,
             "data" => DB::table('productos')
                 ->join('productos_categorias', 'productos.id', '=', 'productos_categorias.idProducto')
                 ->join('categorias', 'categorias.id', '=', 'productos_categorias.idCategoria')
+                ->where('categorias.nombre', $categoria)
                 ->select('productos.*')->get()
         );
 
