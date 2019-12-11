@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.4.8-MariaDB - mariadb.org binary distribution
+-- Versión del servidor:         10.4.6-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
 -- HeidiSQL Versión:             10.2.0.5599
 -- --------------------------------------------------------
@@ -20,16 +20,16 @@ USE `veganfood`;
 CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(250) DEFAULT NULL,
-  `tipo` varchar(250) DEFAULT NULL,
+  `icono` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla veganfood.categorias: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` (`id`, `nombre`, `tipo`) VALUES
-	(1, 'Carnes', 'Carnes'),
-	(2, 'Lentejas', 'Legumbres'),
-	(3, 'Lacteos', 'Lacteos');
+INSERT INTO `categorias` (`id`, `nombre`, `icono`) VALUES
+	(1, 'Carnes', 'fas fa-drumstick-bite'),
+	(4, 'Bebidas', 'fas fa-coffee'),
+	(5, 'Frutas', 'fas fa-apple-alt');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.direcciones
@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS `imagenescarousel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `extension` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla veganfood.imagenescarousel: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.imagenescarousel: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `imagenescarousel` DISABLE KEYS */;
 INSERT INTO `imagenescarousel` (`id`, `extension`) VALUES
 	(1, 'jpg'),
@@ -98,11 +98,48 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `descripcion` varchar(300) NOT NULL,
   `imagen` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla veganfood.productos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.productos: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `imagen`) VALUES
+	(1, 'pechuga', 'pechugota de carne autentica', 'imagen'),
+	(2, 'entrecot', 'entrecot que ha salido de matar a muchos animales', 'muerte');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
+
+-- Volcando estructura para tabla veganfood.productos_categorias
+CREATE TABLE IF NOT EXISTS `productos_categorias` (
+  `idProducto` int(11) NOT NULL,
+  `idCategoria` int(11) NOT NULL,
+  PRIMARY KEY (`idProducto`,`idCategoria`),
+  KEY `fk_productos_categorias2` (`idCategoria`),
+  CONSTRAINT `fk_productos_categorias1` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_productos_categorias2` FOREIGN KEY (`idCategoria`) REFERENCES `categorias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla veganfood.productos_categorias: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `productos_categorias` DISABLE KEYS */;
+INSERT INTO `productos_categorias` (`idProducto`, `idCategoria`) VALUES
+	(1, 1),
+	(2, 1);
+/*!40000 ALTER TABLE `productos_categorias` ENABLE KEYS */;
+
+-- Volcando estructura para tabla veganfood.redessociales
+CREATE TABLE IF NOT EXISTS `redessociales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(250) NOT NULL DEFAULT '0',
+  `enlace` varchar(250) NOT NULL DEFAULT '0',
+  `icono` varchar(250) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla veganfood.redessociales: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `redessociales` DISABLE KEYS */;
+INSERT INTO `redessociales` (`id`, `nombre`, `enlace`, `icono`) VALUES
+	(1, 'Twitter', '#', 'fab fa-twitter'),
+	(2, 'Facebook', '#', 'fab fa-facebook-f'),
+	(3, 'Instagram', '#', 'fab fa-instagram');
+/*!40000 ALTER TABLE `redessociales` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
