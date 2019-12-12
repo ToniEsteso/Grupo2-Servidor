@@ -7,33 +7,24 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Models\Carousel;
-use App\Http\Models\Mensaje;
 
 class CarouselController extends BaseController
 {
     function GetAll(){
-       /*  $mensajes = array("200" => "Todo correcto",
-                    "404" => "No encontrado"); */
-
-        // $directorio = opendir('/public/imagenes');
-        echo Storage::get('public_images');
         $imagenes =  Storage::disk('public_images')->files();
-        //$imagenes = readdir($directorio);
-        var_dump($imagenes);
-        // Si $imagenes no está vacio, retorna success. Si está vacio retornará error 404. DARLE UNA VUELTA
+        // Si $imagenes no está vacio, retorna success. Si está vacio retornará error 404.
         if(empty($imagenes)){
-             $respuesta = null;
+             $respuesta = ["mensaje" => $this->mensajes["404"]];
         }  else{
-            $respuesta = $imagenes;
+            $respuesta =  ["mensaje" => $this->mensajes["200"], public_path('imagenes'), $imagenes];
         } 
 
         return $respuesta;
     }
     function Get($id){
         $respuesta = array(
-            "mensaje" => "Imagen del carousel " . $id,
-            "data" => Carousel::Where("id", $id)->get()
+            // "mensaje" => "Imagen del carousel " . $id,
+            // "data" => Carousel::Where("id", $id)->get()
         );
 
         return $respuesta;
