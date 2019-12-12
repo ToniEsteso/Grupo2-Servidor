@@ -24,12 +24,36 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `direcciones`
---
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-CREATE TABLE `direcciones` (
-  `id` int(11) NOT NULL,
+
+-- Volcando estructura de base de datos para veganfood
+CREATE DATABASE IF NOT EXISTS `veganfood` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `veganfood`;
+
+-- Volcando estructura para tabla veganfood.categorias
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(250) DEFAULT NULL,
+  `icono` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla veganfood.categorias: ~3 rows (aproximadamente)
+/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
+INSERT INTO `categorias` (`id`, `nombre`, `icono`) VALUES
+	(1, 'Carnes', 'fas fa-drumstick-bite'),
+	(4, 'Bebidas', 'fas fa-coffee'),
+	(5, 'Frutas', 'fas fa-apple-alt');
+/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
+
+-- Volcando estructura para tabla veganfood.direcciones
+CREATE TABLE IF NOT EXISTS `direcciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUsuario` int(11) NOT NULL,
   `codigoPostal` int(5) NOT NULL,
   `localidad` varchar(40) NOT NULL,
@@ -38,17 +62,34 @@ CREATE TABLE `direcciones` (
   `piso` int(3) NOT NULL,
   `escalera` varchar(2) NOT NULL,
   `puerta` int(3) NOT NULL,
-  `masInfo` varchar(200) NOT NULL
+  `masInfo` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idUsuario` (`idUsuario`),
+  CONSTRAINT `fk_direcciones_usuarios_id` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+-- Volcando datos para la tabla veganfood.direcciones: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `direcciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `direcciones` ENABLE KEYS */;
 
---
--- Estructura de tabla para la tabla `informacionnutricional`
---
+-- Volcando estructura para tabla veganfood.imagenescarousel
+CREATE TABLE IF NOT EXISTS `imagenescarousel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `extension` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `informacionnutricional` (
-  `id` int(11) NOT NULL,
+-- Volcando datos para la tabla veganfood.imagenescarousel: ~3 rows (aproximadamente)
+/*!40000 ALTER TABLE `imagenescarousel` DISABLE KEYS */;
+INSERT INTO `imagenescarousel` (`id`, `extension`) VALUES
+	(1, 'jpg'),
+	(2, 'jpg'),
+	(3, 'jpg');
+/*!40000 ALTER TABLE `imagenescarousel` ENABLE KEYS */;
+
+-- Volcando estructura para tabla veganfood.informacionnutricional
+CREATE TABLE IF NOT EXISTS `informacionnutricional` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idProducto` int(11) NOT NULL,
   `cantidad` int(3) NOT NULL,
   `medida` varchar(2) NOT NULL,
@@ -59,117 +100,86 @@ CREATE TABLE `informacionnutricional` (
   `hidratosCarbono` int(3) NOT NULL,
   `azucares` int(3) NOT NULL,
   `fibra` int(3) NOT NULL,
-  `sal` int(3) NOT NULL
+  `sal` int(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idProducto` (`idProducto`),
+  CONSTRAINT `fk_informacionnutricional_productos_id` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+-- Volcando datos para la tabla veganfood.informacionnutricional: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `informacionnutricional` DISABLE KEYS */;
+/*!40000 ALTER TABLE `informacionnutricional` ENABLE KEYS */;
 
---
--- Estructura de tabla para la tabla `productos`
---
-
-CREATE TABLE `productos` (
-  `id` int(11) NOT NULL,
+-- Volcando estructura para tabla veganfood.productos
+CREATE TABLE IF NOT EXISTS `productos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `categoria` varchar(40) NOT NULL,
   `precio` float(5,2) NOT NULL,
   `descripcion` varchar(300) NOT NULL,
-  `imagen` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `imagen` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+-- Volcando datos para la tabla veganfood.productos: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `imagen`) VALUES
+	(1, 'pechuga', 'pechugota de carne autentica', 'imagen'),
+	(2, 'entrecot', 'entrecot que ha salido de matar a muchos animales', 'muerte');
+/*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
---
--- Estructura de tabla para la tabla `usuarios`
---
+-- Volcando estructura para tabla veganfood.productos_categorias
+CREATE TABLE IF NOT EXISTS `productos_categorias` (
+  `idProducto` int(11) NOT NULL,
+  `idCategoria` int(11) NOT NULL,
+  PRIMARY KEY (`idProducto`,`idCategoria`),
+  KEY `fk_productos_categorias2` (`idCategoria`),
+  CONSTRAINT `fk_productos_categorias1` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_productos_categorias2` FOREIGN KEY (`idCategoria`) REFERENCES `categorias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
+-- Volcando datos para la tabla veganfood.productos_categorias: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `productos_categorias` DISABLE KEYS */;
+INSERT INTO `productos_categorias` (`idProducto`, `idCategoria`) VALUES
+	(1, 1),
+	(2, 1);
+/*!40000 ALTER TABLE `productos_categorias` ENABLE KEYS */;
+
+-- Volcando estructura para tabla veganfood.redessociales
+CREATE TABLE IF NOT EXISTS `redessociales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(250) NOT NULL DEFAULT '0',
+  `enlace` varchar(250) NOT NULL DEFAULT '0',
+  `icono` varchar(250) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla veganfood.redessociales: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `redessociales` DISABLE KEYS */;
+INSERT INTO `redessociales` (`id`, `nombre`, `enlace`, `icono`) VALUES
+	(1, 'Twitter', '#', 'fab fa-twitter'),
+	(2, 'Facebook', '#', 'fab fa-facebook-f'),
+	(3, 'Instagram', '#', 'fab fa-instagram');
+/*!40000 ALTER TABLE `redessociales` ENABLE KEYS */;
+
+-- Volcando estructura para tabla veganfood.usuarios
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nickName` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(256) NOT NULL,
   `avatar` varchar(30) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `apellidos` varchar(100) NOT NULL
+  `apellidos` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nickName` (`nickName`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Índices para tablas volcadas
---
+-- Volcando datos para la tabla veganfood.usuarios: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 
---
--- Indices de la tabla `direcciones`
---
-ALTER TABLE `direcciones`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idUsuario` (`idUsuario`);
-
---
--- Indices de la tabla `informacionnutricional`
---
-ALTER TABLE `informacionnutricional`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idProducto` (`idProducto`);
-
---
--- Indices de la tabla `productos`
---
-ALTER TABLE `productos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nickName` (`nickName`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `direcciones`
---
-ALTER TABLE `direcciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `informacionnutricional`
---
-ALTER TABLE `informacionnutricional`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `productos`
---
-ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `direcciones`
---
-ALTER TABLE `direcciones`
-  ADD CONSTRAINT `fk_direcciones_usuarios_id` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `informacionnutricional`
---
-ALTER TABLE `informacionnutricional`
-  ADD CONSTRAINT `fk_informacionnutricional_productos_id` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`) ON UPDATE CASCADE;
-COMMIT;
-
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
