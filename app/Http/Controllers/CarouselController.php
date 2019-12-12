@@ -10,15 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 class CarouselController extends BaseController
 {
+    
     function GetAll(){
-        $imagenes =  Storage::url('public_images');
-        dd($imagenes);
+        $imagenes =  Storage::files('public_images');
+        var_dump($imagenes);
         // Si $imagenes no está vacio, retorna success. Si está vacio retornará error 404.
-        // if(empty($imagenes)){
-        //      $respuesta = ["mensaje" => $this->mensajes["404"]];
-        // }  else{
-        //     $respuesta =  ["mensaje" => $this->mensajes["200"], public_path('imagenes'), $imagenes];
-        // } 
+        if(empty($imagenes)){
+             $respuesta =  config('error.404');
+        }  else{
+            $respuesta =  [config('error.200'), public_path('imagenes'), $imagenes];
+        } 
 
         return $respuesta;
     }
