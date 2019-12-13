@@ -7,27 +7,35 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Models\Carousel;
 
 class CarouselController extends BaseController
 {
     
     function GetAll(){
-        $imagenes =  Storage::files('public_images');
-        var_dump($imagenes);
-        // Si $imagenes no está vacio, retorna success. Si está vacio retornará error 404.
-        if(empty($imagenes)){
+        $imagenesServidor =  Storage::disk('public_images')->files();
+        // Si $imagenesServidor no está vacio, retorna success. Si está vacio retornará error 404.
+        if(empty($imagenesServidor)){
              $respuesta =  config('error.404');
         }  else{
-            $respuesta =  [config('error.200'), public_path('imagenes'), $imagenes];
-        } 
+            $respuesta =  ["mensaje" => config('error.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesServidor];
+        }
 
         return $respuesta;
     }
-    function Get($id){
-        $respuesta = array(
-            // "mensaje" => "Imagen del carousel " . $id,
-            // "data" => Carousel::Where("id", $id)->get()
-        );
+    function GetImagenesPromocion(){
+        $imagenesServidor =  Storage::disk('public_images')->files();
+        $imagenesBDarray = [];
+        if(empty($imagenesServidor)){
+             $respuesta =  config('error.404');
+        }  else{
+            $imagenesBD = Carousel::get();
+            foreach ($imagenesBD as $key) {
+                array_push($imagenesBDarray, $key->nombre . "." . $key->extension);
+            }
+            $imagenesPromocion = array_intersect($imagenesServidor, $imagenesBDarray);
+            $respuesta =  ["mensaje" => config('error.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesPromocion];
+        }
 
         return $respuesta;
     }

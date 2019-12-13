@@ -57,7 +57,7 @@ return [
 
         'public_images' => [
             'driver' => 'local',
-            'url'   => env('APP_URL').'/imagenes',
+            'root'   => public_path("imagenes"),
         ],
 
         's3' => [
