@@ -1,27 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 4.9.0.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2019 a las 13:41:07
--- Versión del servidor: 10.4.6-MariaDB
--- Versión de PHP: 7.3.9
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `veganfood`
---
-
+-- --------------------------------------------------------
+-- Host:                         localhost
+-- Versión del servidor:         10.4.6-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             10.3.0.5771
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -72,20 +53,21 @@ CREATE TABLE IF NOT EXISTS `direcciones` (
 /*!40000 ALTER TABLE `direcciones` DISABLE KEYS */;
 /*!40000 ALTER TABLE `direcciones` ENABLE KEYS */;
 
--- Volcando estructura para tabla veganfood.imagenescarousel
-CREATE TABLE IF NOT EXISTS `imagenescarousel` (
+-- Volcando estructura para tabla veganfood.imagenescarouselpromocion
+CREATE TABLE IF NOT EXISTS `imagenescarouselpromocion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `extension` varchar(50) DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `extension` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla veganfood.imagenescarousel: ~3 rows (aproximadamente)
-/*!40000 ALTER TABLE `imagenescarousel` DISABLE KEYS */;
-INSERT INTO `imagenescarousel` (`id`, `extension`) VALUES
-	(1, 'jpg'),
-	(2, 'jpg'),
-	(3, 'jpg');
-/*!40000 ALTER TABLE `imagenescarousel` ENABLE KEYS */;
+-- Volcando datos para la tabla veganfood.imagenescarouselpromocion: ~3 rows (aproximadamente)
+/*!40000 ALTER TABLE `imagenescarouselpromocion` DISABLE KEYS */;
+INSERT INTO `imagenescarouselpromocion` (`id`, `nombre`, `extension`) VALUES
+	(1, 'carousel1', 'jpg'),
+	(2, 'carousel2', 'jpg'),
+	(3, 'carousel3', 'jpg');
+/*!40000 ALTER TABLE `imagenescarouselpromocion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.informacionnutricional
 CREATE TABLE IF NOT EXISTS `informacionnutricional` (
@@ -123,9 +105,9 @@ CREATE TABLE IF NOT EXISTS `productos` (
 
 -- Volcando datos para la tabla veganfood.productos: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `imagen`) VALUES
-	(1, 'pechuga', 'pechugota de carne autentica', 'imagen'),
-	(2, 'entrecot', 'entrecot que ha salido de matar a muchos animales', 'muerte');
+INSERT INTO `productos` (`id`, `nombre`, `categoria`, `precio`, `descripcion`, `imagen`) VALUES
+	(1, 'pechuga', '', 0.00, 'pechugota de carne autentica', 'imagen'),
+	(2, 'entrecot', '', 0.00, 'entrecot que ha salido de matar a muchos animales', 'muerte');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.productos_categorias
@@ -154,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `redessociales` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla veganfood.redessociales: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.redessociales: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `redessociales` DISABLE KEYS */;
 INSERT INTO `redessociales` (`id`, `nombre`, `enlace`, `icono`) VALUES
 	(1, 'Twitter', '#', 'fab fa-twitter'),
