@@ -16,9 +16,9 @@ class CarouselController extends BaseController
         $imagenesServidor =  Storage::disk('public_images')->files();
         // Si $imagenesServidor no está vacio, retorna success. Si está vacio retornará error 404.
         if(empty($imagenesServidor)){
-             $respuesta =  config('error.404');
+             $respuesta =  config('codigosRespuesta.404');
         }  else{
-            $respuesta =  ["mensaje" => config('error.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesServidor];
+            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesServidor];
         }
 
         return $respuesta;
@@ -27,14 +27,14 @@ class CarouselController extends BaseController
         $imagenesServidor =  Storage::disk('public_images')->files();
         $imagenesBDarray = [];
         if(empty($imagenesServidor)){
-             $respuesta =  config('error.404');
+             $respuesta =  config('codigosRespuesta.404');
         }  else{
             $imagenesBD = Carousel::get();
             foreach ($imagenesBD as $key) {
                 array_push($imagenesBDarray, $key->nombre . "." . $key->extension);
             }
             $imagenesPromocion = array_intersect($imagenesServidor, $imagenesBDarray);
-            $respuesta =  ["mensaje" => config('error.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesPromocion];
+            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesPromocion];
         }
 
         return $respuesta;
