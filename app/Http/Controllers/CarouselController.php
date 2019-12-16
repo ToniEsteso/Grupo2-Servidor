@@ -26,14 +26,23 @@ class CarouselController extends BaseController
     function GetImagenesPromocion(){
         $imagenesServidor =  Storage::disk('public_images')->files();
         $imagenesBDarray = [];
+        $imagenesPromocion = array();
         if(empty($imagenesServidor)){
              $respuesta =  config('codigosRespuesta.404');
         }  else{
-            $imagenesBD = Carousel::get();
-            foreach ($imagenesBD as $key) {
-                array_push($imagenesBDarray, $key->nombre . "." . $key->extension);
+            for ($i=0; $i < 4;) {
+                    $random = rand(0, count($imagenesServidor));
+                    if(!in_array($imagenesServidor[$random], $imagenesPromocion)){
+                        array_push($imagenesPromocion, $imagenesServidor[$random]);
+                        $i++;
+                    }
             }
-            $imagenesPromocion = array_intersect($imagenesServidor, $imagenesBDarray);
+
+            // $imagenesBD = Carousel::get();
+            // foreach ($imagenesBD as $key) {
+            //     array_push($imagenesBDarray, $key->nombre . "." . $key->extension);
+            // }
+            // $imagenesPromocion = array_intersect($imagenesServidor, $imagenesBDarray);
             $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesPromocion];
         }
 
