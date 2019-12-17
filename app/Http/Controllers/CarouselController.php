@@ -30,20 +30,22 @@ class CarouselController extends BaseController
         if(empty($imagenesServidor)){
              $respuesta =  config('codigosRespuesta.404');
         }  else{
-            for ($i=0; $i < 4;) {
-                    $random = rand(0, count($imagenesServidor));
-                    if(!in_array($imagenesServidor[$random], $imagenesPromocion)){
-                        array_push($imagenesPromocion, $imagenesServidor[$random]);
-                        $i++;
-                    }
+            if(config("carousel.aleatoriedad")){
+                for ($i=0; $i < config("carousel.numeroFotos");) {
+                        $random = rand(0, count($imagenesServidor));
+                        if(!in_array($imagenesServidor[$random], $imagenesPromocion)){
+                            array_push($imagenesPromocion, $imagenesServidor[$random]);
+                            $i++;
+                        }
+                }
+            } else{
+                $imagenesBD = Carousel::get();
+                foreach ($imagenesBD as $key) {
+                    array_push($imagenesBDarray, $key->nombre . "." . $key->extension);
+                }
+                $imagenesPromocion = array_values(array_intersect($imagenesServidor, $imagenesBDarray));
             }
-
-            // $imagenesBD = Carousel::get();
-            // foreach ($imagenesBD as $key) {
-            //     array_push($imagenesBDarray, $key->nombre . "." . $key->extension);
-            // }
-            // $imagenesPromocion = array_intersect($imagenesServidor, $imagenesBDarray);
-            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaServer" => str_replace("\\", "/", explode("public", public_path('imagenes'))[1]), "imagenes" => $imagenesPromocion];
+            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaServer" => str_replace("\\", "/", explode("public",Storage::disk('public_images')->getDriver()->getAdapter()->getPathPrefix())[1]), "imagenes" => $imagenesPromocion];
         }
 
         return $respuesta;
