@@ -9,7 +9,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -20,9 +20,7 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-        var_dump($credentials);
         if (!$token = auth()->attempt($credentials)) {
-            echo 'token: ' . $token;
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         return $this->respondWithToken($token);
@@ -80,8 +78,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user(),
+            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 }
