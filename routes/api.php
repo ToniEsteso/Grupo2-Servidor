@@ -40,3 +40,13 @@ Route::get('/carousel', 'CarouselController@GetImagenesPromocion');
 Route::get('/redessociales', 'RedesSocialesController@GetAll');
 
 Route::get('/redessociales/{id}', 'RedesSocialesController@Get');
+
+//LOGIN
+Route::group([
+    'prefix' => 'auth',
+], function (){
+    Route::post('login', 'Authcontroller@login');
+    Route::post('logout', 'Authcontroller@logout');
+    Route::post('refresh', 'Authcontroller@refresh');
+    Route::post('me', 'Authcontroller@me');
+});
