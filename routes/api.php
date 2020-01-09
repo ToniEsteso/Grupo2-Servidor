@@ -20,9 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //CATEGORIAS
 Route::get('/categorias', 'CategoriasController@GetAll');
 
-Route::get('/{categoria}', 'CategoriasController@Get');
+Route::get('/categorias/{categoria}', 'CategoriasController@Get');
 
-Route::get('/{categoria}/productos', 'CategoriasController@ProductosPorCategoria');
+Route::get('/categorias/{categoria}/productos', 'CategoriasController@ProductosPorCategoria');
 
 //PRODUCTOS
 Route::get('/productos', 'ProductosController@GetAll');
