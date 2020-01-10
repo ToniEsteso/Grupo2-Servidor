@@ -17,7 +17,7 @@ class ProductosController extends BaseController
         if(empty($productos)){
              $respuesta =  config('codigosRespuesta.404');
         }  else{
-            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaImagenesServer" => str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]), "productos" => $productos];
+            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaImagenesServer" => str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]), "data" => $productos];
         }
 
         return $respuesta;
@@ -29,7 +29,7 @@ class ProductosController extends BaseController
         if(empty($producto)){
             $respuesta =  config('codigosRespuesta.404');
         } else{
-            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaImagenesServer" => str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]), "producto" => $producto];
+            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaImagenesServer" => str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]), "data" => $producto];
         }
 
         return $respuesta;
