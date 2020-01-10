@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `productos_categorias` (
   CONSTRAINT `fk_productos_categorias2` FOREIGN KEY (`idCategoria`) REFERENCES `categorias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla veganfood.productos_categorias: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.productos_categorias: ~20 rows (aproximadamente)
 /*!40000 ALTER TABLE `productos_categorias` DISABLE KEYS */;
 INSERT INTO `productos_categorias` (`idProducto`, `idCategoria`) VALUES
 	(1, 1),
@@ -174,9 +174,9 @@ CREATE TABLE IF NOT EXISTS `redessociales` (
 -- Volcando datos para la tabla veganfood.redessociales: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `redessociales` DISABLE KEYS */;
 INSERT INTO `redessociales` (`id`, `nombre`, `enlace`, `icono`) VALUES
-	(1, 'Twitter', '#', 'fab fa-twitter'),
-	(2, 'Facebook', '#', 'fab fa-facebook-f'),
-	(3, 'Instagram', '#', 'fab fa-instagram');
+	(1, 'Twitter', 'https://www.twitter.com/VeganFoodVLC', 'fab fa-twitter'),
+	(2, 'Facebook', 'https://www.facebook.com/Veganfoodvlc-107226347474951/', 'fab fa-facebook-f'),
+	(3, 'Instagram', 'https://www.instagram.com/vlcveganfood/?hl=es', 'fab fa-instagram');
 /*!40000 ALTER TABLE `redessociales` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.usuarios
