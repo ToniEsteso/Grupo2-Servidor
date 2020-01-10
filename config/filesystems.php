@@ -57,7 +57,7 @@ return [
 
         'public_images' => [
             'driver' => 'local',
-            'root'   => public_path("imagenes"),
+            'root'   => public_path("imagenes/carousel"),
         ],
 
         's3' => [
