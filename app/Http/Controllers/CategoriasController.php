@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Models\Categorias;
 use App\Http\Models\Productos;
 
@@ -41,12 +42,11 @@ class CategoriasController extends BaseController
         ->join('categorias', 'categorias.id', '=', 'productos_categorias.idCategoria')
         ->where('categorias.nombre', $categoria)
         ->select('productos.*')->get();
-        echo $productos;
         
         if(empty($productos)){
             $respuesta =  config('codigosRespuesta.404');
         } else{
-            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "data" => $productos];
+            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "rutaServerImagenes" => str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]),"data" => $productos];
         }
 
         return $respuesta;
