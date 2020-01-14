@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -20,6 +22,11 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
+        $numUsuario = User::where("nickName", $credentials["email"])->count();
+
+        if ($numUsuario == 1) {
+            $credentials["email"] = User::where("nickName", $credentials["email"])->get()[0]->email;
+        }
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -36,12 +43,10 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
 
-    
     public function payload()
     {
         return response()->json(auth()->payload());
     }
-
 
     /**
      * Log the user out (Invalidate the token).
@@ -54,6 +59,64 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+    /**
+     * Registra el usuario.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register()
+    {
+        $credentials = request(['nombre', 'apellidos', 'email', 'nickName', 'password1', 'password2', 'avatar']);
+        foreach ($credentials as $key => $value) {
+            $key = strip_tags($key);
+        }
+        if ($credentials["password1"] !== $credentials["password2"]) {
+            //comprobar las contraseñas
+            return response()->response('Contraseñas incorrectas', 500);
+        } else if (User::where("email", $credentials["email"])->count() != 0) {
+            //comprobar la disponibilidad del nickname
+            return response()->response('Nickname no disponible', 500);
+        } else if (User::where("nickName", $credentials["nickName"])->count() != 0) {
+            // comprobar el nickname
+            return response()->response('algo', 500);
+        } else {
+            //insertar el usuario
+            $usuario = new User();
+            $usuario->nombre = $credentials["nombre"];
+            $usuario->apellidos = $credentials["apellidos"];
+            $usuario->email = $credentials["email"];
+            $usuario->nickName = $credentials["nickName"];
+            $usuario->password = Hash::make($credentials["password1"]);
+
+            $nombreImagen = $this->subirImagen($credentials["nickName"]);
+            $usuario->avatar = $nombreImagen;
+            if ($nombreImagen != null) {
+                $usuario->save();
+                return response()->json(['usuario' => $usuario]);
+            } else {
+                return response()->json(['mensaje' => "Vas a engañar a otro"]);
+            }
+
+        }
+    }
+
+    public function subirImagen($nick)
+    {
+        $dir_subida = public_path() . '/imagenes/usuarios/';
+
+        $tipos = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/PNG', 'image/JPEG', 'image/JPG');
+
+        if (in_array($_FILES['avatar']['type'], $tipos)) {
+            $fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $fichero_subido)) {
+                return $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Refresh a token.
@@ -64,7 +127,6 @@ class AuthController extends Controller
     {
         return $this->respondWithToken(auth()->refresh());
     }
-
 
     /**
      * Get the token array structure.
@@ -78,7 +140,8 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user(),
         ]);
     }
 }
