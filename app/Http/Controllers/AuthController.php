@@ -22,6 +22,11 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
+        $numUsuario = User::where("nickName", $credentials["email"])->count();
+
+        if ($numUsuario == 1) {
+            $credentials["email"] = User::where("nickName", $credentials["email"])->get()[0]->email;
+        }
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -62,33 +67,54 @@ class AuthController extends Controller
     public function register()
     {
         $credentials = request(['nombre', 'apellidos', 'email', 'nickName', 'password1', 'password2', 'avatar']);
-        return request()->all();
         foreach ($credentials as $key => $value) {
             $key = strip_tags($key);
         }
-        //comprobar las contraseñas
         if ($credentials["password1"] !== $credentials["password2"]) {
-            return "contraseñas no iguales";
-            return response()->json([
-                'codigo' => config('codigosRespuesta.500'),
-            ]);
-            //comprobar la disponibilidad del nickname
+            //comprobar las contraseñas
+            return response()->response('Contraseñas incorrectas', 500);
         } else if (User::where("email", $credentials["email"])->count() != 0) {
-            return "email no disponible";
+            //comprobar la disponibilidad del nickname
+            return response()->response('Nickname no disponible', 500);
         } else if (User::where("nickName", $credentials["nickName"])->count() != 0) {
-            return "nickname no disponible";
-            return response()->json([
-                'codigo' => config('codigosRespuesta.500'),
-            ]);
+            // comprobar el nickname
+            return response()->response('algo', 500);
         } else {
+            //insertar el usuario
             $usuario = new User();
             $usuario->nombre = $credentials["nombre"];
             $usuario->apellidos = $credentials["apellidos"];
             $usuario->email = $credentials["email"];
             $usuario->nickName = $credentials["nickName"];
             $usuario->password = Hash::make($credentials["password1"]);
-            $usuario->avatar = $credentials["avatar"];
-            $usuario->save();
+
+            $nombreImagen = $this->subirImagen($credentials["nickName"]);
+            $usuario->avatar = $nombreImagen;
+            if ($nombreImagen != null) {
+                $usuario->save();
+                return response()->json(['usuario' => $usuario]);
+            } else {
+                return response()->json(['mensaje' => "Vas a engañar a otro"]);
+            }
+
+        }
+    }
+
+    public function subirImagen($nick)
+    {
+        $dir_subida = public_path() . '/imagenes/usuarios/';
+
+        $tipos = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/PNG', 'image/JPEG', 'image/JPG');
+
+        if (in_array($_FILES['avatar']['type'], $tipos)) {
+            $fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $fichero_subido)) {
+                return $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
         }
     }
 
