@@ -32,7 +32,7 @@ class CarouselController extends BaseController
         }  else{
             if(config("carousel.aleatoriedad")){
                 for ($i=0; $i < config("carousel.numeroFotos");) {
-                        $random = rand(0, count($imagenesServidor));
+                        $random = rand(0, count($imagenesServidor) - 1);
                         if(!in_array($imagenesServidor[$random], $imagenesPromocion)){
                             array_push($imagenesPromocion, $imagenesServidor[$random]);
                             $i++;
