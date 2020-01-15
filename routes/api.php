@@ -29,6 +29,9 @@ Route::get('/productos', 'ProductosController@GetAll');
 
 Route::get('/productos/{producto}', 'ProductosController@Get');
 
+//RECETAS
+Route::get('/recetas', 'RecetasController@GetAll');
+
 //CAROUSEL
 // Route::get('/carousel', 'CarouselController@GetAll');
 

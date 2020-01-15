@@ -162,6 +162,25 @@ INSERT INTO `productos_categorias` (`idProducto`, `idCategoria`) VALUES
 	(20, 3);
 /*!40000 ALTER TABLE `productos_categorias` ENABLE KEYS */;
 
+-- Volcando estructura para tabla veganfood.recetas
+CREATE TABLE IF NOT EXISTS `recetas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `imagen` varchar(100) DEFAULT NULL,
+  `enlace` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla veganfood.recetas: ~5 rows (aproximadamente)
+/*!40000 ALTER TABLE `recetas` DISABLE KEYS */;
+INSERT INTO `recetas` (`id`, `nombre`, `imagen`, `enlace`) VALUES
+	(1, 'Berenjenas Rellenas', 'berenjenasrellenas.jpg', 'https://www.hogarmania.com/cocina/recetas/ensaladas-verduras/201802/berenjena-rellena-arroz-verduras-salsa-39060.html'),
+	(2, 'Tomates Rellenos', 'tomatesrellenos.jpg', 'https://www.cocina-familiar.com/tomates-rellenos-con-ensaladilla-de-arroz.html'),
+	(3, 'Ensalada Valenciana', 'ensaladavalenciana.jpg', 'http://www.recetasparainutiles.com/recetas/vegetales/ensalada-valenciana'),
+	(4, 'Hamburguesa Vegana', 'hamburguesavegana.jpg', 'https://delantaldealces.com/hamburguesa-vegana-garbanzos-tofu/'),
+	(5, 'Sopa de Verduras', 'sopaverduras.jpg', 'https://cocina-casera.com/mx/sopa-verduras-receta-mexicana-facil/');
+/*!40000 ALTER TABLE `recetas` ENABLE KEYS */;
+
 -- Volcando estructura para tabla veganfood.redessociales
 CREATE TABLE IF NOT EXISTS `redessociales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
