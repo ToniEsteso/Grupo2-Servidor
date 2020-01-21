@@ -75,6 +75,11 @@ return [
             'root'   => public_path("imagenes/recetas"),
         ],
 
+        'public_images_usuarios' => [
+            'driver' => 'local',
+            'root'   => public_path("imagenes/usuarios"),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

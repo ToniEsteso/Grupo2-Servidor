@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -88,7 +89,8 @@ class AuthController extends Controller
             $usuario->nickName = $credentials["nickName"];
             $usuario->password = Hash::make($credentials["password1"]);
 
-            $nombreImagen = $this->subirImagen($credentials["nickName"]);
+	    $nombreImagen = $this->subirImagen($credentials["nickName"]);
+	    
             $usuario->avatar = $nombreImagen;
             if ($nombreImagen != null) {
                 $usuario->save();
@@ -102,12 +104,13 @@ class AuthController extends Controller
 
     public function subirImagen($nick)
     {
-        $dir_subida = public_path() . '/imagenes/usuarios/';
+            $dir_subida = public_path() .str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
+            // $dir_subida = '/var/www/html/public/'.str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
 
         $tipos = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/PNG', 'image/JPEG', 'image/JPG');
 
         if (in_array($_FILES['avatar']['type'], $tipos)) {
-            $fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
+		$fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
             if (move_uploaded_file($_FILES['avatar']['tmp_name'], $fichero_subido)) {
                 return $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
             } else {
