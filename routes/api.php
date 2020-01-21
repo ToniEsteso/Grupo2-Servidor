@@ -44,6 +44,10 @@ Route::get('/redessociales', 'RedesSocialesController@GetAll');
 
 Route::get('/redessociales/{id}', 'RedesSocialesController@Get');
 
+// CARRITO
+Route::post('/carrito', 'CarritoController@insertarCarrito');
+
+
 //LOGIN
 Route::group([
     'prefix' => 'auth',
