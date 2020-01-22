@@ -21,15 +21,16 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(250) DEFAULT NULL,
   `icono` varchar(250) DEFAULT NULL,
+  `imagen` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla veganfood.categorias: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` (`id`, `nombre`, `icono`) VALUES
-	(1, 'Carnes', 'fas fa-drumstick-bite'),
-	(2, 'Bebidas', 'fas fa-coffee'),
-	(3, 'Frutas', 'fas fa-apple-alt');
+INSERT INTO `categorias` (`id`, `nombre`, `icono`, `imagen`) VALUES
+	(1, 'Carnes', 'fas fa-drumstick-bite', 'carnes.jpg'),
+	(2, 'Bebidas', 'fas fa-coffee', 'bebidas.jpg'),
+	(3, 'Frutas', 'fas fa-apple-alt', 'frutas.jpg');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.direcciones
@@ -162,6 +163,25 @@ INSERT INTO `productos_categorias` (`idProducto`, `idCategoria`) VALUES
 	(20, 3);
 /*!40000 ALTER TABLE `productos_categorias` ENABLE KEYS */;
 
+-- Volcando estructura para tabla veganfood.recetas
+CREATE TABLE IF NOT EXISTS `recetas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `imagen` varchar(100) DEFAULT NULL,
+  `enlace` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla veganfood.recetas: ~5 rows (aproximadamente)
+/*!40000 ALTER TABLE `recetas` DISABLE KEYS */;
+INSERT INTO `recetas` (`id`, `nombre`, `imagen`, `enlace`) VALUES
+	(1, 'Berenjenas Rellenas', 'berenjenasrellenas.jpg', 'https://www.hogarmania.com/cocina/recetas/ensaladas-verduras/201802/berenjena-rellena-arroz-verduras-salsa-39060.html'),
+	(2, 'Tomates Rellenos', 'tomatesrellenos.jpg', 'https://www.cocina-familiar.com/tomates-rellenos-con-ensaladilla-de-arroz.html'),
+	(3, 'Ensalada Valenciana', 'ensaladavalenciana.jpg', 'http://www.recetasparainutiles.com/recetas/vegetales/ensalada-valenciana'),
+	(4, 'Hamburguesa Vegana', 'hamburguesavegana.jpg', 'https://delantaldealces.com/hamburguesa-vegana-garbanzos-tofu/'),
+	(5, 'Sopa de Verduras', 'sopaverduras.jpg', 'https://cocina-casera.com/mx/sopa-verduras-receta-mexicana-facil/');
+/*!40000 ALTER TABLE `recetas` ENABLE KEYS */;
+
 -- Volcando estructura para tabla veganfood.redessociales
 CREATE TABLE IF NOT EXISTS `redessociales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -194,26 +214,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
--- Volcando estructura para tabla veganfood.recetas
-CREATE TABLE IF NOT EXISTS `recetas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) DEFAULT NULL,
-  `imagen` varchar(100) DEFAULT NULL,
-  `enlace` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
--- Volcando datos para la tabla veganfood.recetas: ~5 rows (aproximadamente)
-/*!40000 ALTER TABLE `recetas` DISABLE KEYS */;
-INSERT INTO `recetas` (`id`, `nombre`, `imagen`, `enlace`) VALUES
-	(1, 'Berenjenas Rellenas', 'berenjenasrellenas.jpg', 'https://www.hogarmania.com/cocina/recetas/ensaladas-verduras/201802/berenjena-rellena-arroz-verduras-salsa-39060.html'),
-	(2, 'Tomates Rellenos', 'tomatesrellenos.jpg', 'https://www.cocina-familiar.com/tomates-rellenos-con-ensaladilla-de-arroz.html'),
-	(3, 'Ensalada Valenciana', 'ensaladavalenciana.jpg', 'http://www.recetasparainutiles.com/recetas/vegetales/ensalada-valenciana'),
-	(4, 'Hamburguesa Vegana', 'hamburguesavegana.jpg', 'https://delantaldealces.com/hamburguesa-vegana-garbanzos-tofu/'),
-	(5, 'Sopa de Verduras', 'sopaverduras.jpg', 'https://cocina-casera.com/mx/sopa-verduras-receta-mexicana-facil/');
-/*!40000 ALTER TABLE `recetas` ENABLE KEYS */;
-
--- Volcando datos para la tabla veganfood.usuarios: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.usuarios: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` (`id`, `nickName`, `email`, `password`, `avatar`, `nombre`, `apellidos`, `admin`) VALUES
 	(26, 'Toni', 'toniesteso97@gmail.com', '$2y$10$yWbUHPliaAesY3zzp8aSP.Lp66GnWCSivc0rKkIHwqPOAiEdI0eUC', 'Toni.jpeg', 'Toni', 'Toni', 0);
