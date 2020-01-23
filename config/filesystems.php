@@ -75,6 +75,11 @@ return [
             'root'   => public_path("imagenes/recetas"),
         ],
 
+        'public_images_categorias' => [
+            'driver' => 'local',
+            'root'   => public_path("imagenes/categorias"),
+        ],
+
         'public_images_usuarios' => [
             'driver' => 'local',
             'root'   => public_path("imagenes/usuarios"),

@@ -19,7 +19,7 @@ class CategoriasController extends BaseController
         if(empty($categorias)){
             $respuesta =  config('codigosRespuesta.404');
         } else{
-            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "data" => $categorias];
+            $respuesta = ["mensaje" => config('codigosRespuesta.200'),"rutaImagenesServer" =>str_replace("\\", "/", explode("public",Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix())[1]),"data" => $categorias];
         }
 
         return $respuesta;
@@ -31,7 +31,7 @@ class CategoriasController extends BaseController
         if(empty($cat)){
             $respuesta =  config('codigosRespuesta.404');
         } else{
-            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "data" => $cat];
+            $respuesta = ["mensaje" => config('codigosRespuesta.200'),"rutaImagenesServer" =>str_replace("\\", "/", explode("public",Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix())[1]), "data" => $cat];
         }
 
         return $respuesta;
