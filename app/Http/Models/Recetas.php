@@ -9,4 +9,5 @@ class Recetas extends Eloquent
     protected $table = 'recetas';
     protected $primarykey = 'id';
     protected $fillable = array('id', 'nombre', 'imagen', 'enlace');
+    public $timestamps = false;
 }

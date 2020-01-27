@@ -9,4 +9,5 @@ class Productos extends Eloquent
     protected $table = 'productos';
     protected $primaryKey = 'id';
     protected $fillable = array('id', 'nombre', 'descripcion', 'imagen');
+    public $timestamps = false;
 }

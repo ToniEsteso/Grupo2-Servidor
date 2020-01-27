@@ -16,6 +16,17 @@
 CREATE DATABASE IF NOT EXISTS `veganfood` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `veganfood`;
 
+-- Volcando estructura para tabla veganfood.carritos
+CREATE TABLE IF NOT EXISTS `carritos` (
+  `idCarrito` int(11) DEFAULT NULL,
+  `idUsuario` int(11) DEFAULT NULL,
+  `fechaCompra` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla veganfood.carritos: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `carritos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carritos` ENABLE KEYS */;
+
 -- Volcando estructura para tabla veganfood.categorias
 CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -128,6 +139,17 @@ INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `imagen`) VALU
 	(20, 'Mandarina', 1.00, 'Mandarinas de la huerta valenciana', 'mandarinas.jpg');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
+-- Volcando estructura para tabla veganfood.productos_carrito
+CREATE TABLE IF NOT EXISTS `productos_carrito` (
+  `idProducto` int(11) DEFAULT NULL,
+  `idCarrito` int(11) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla veganfood.productos_carrito: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `productos_carrito` DISABLE KEYS */;
+/*!40000 ALTER TABLE `productos_carrito` ENABLE KEYS */;
+
 -- Volcando estructura para tabla veganfood.productos_categorias
 CREATE TABLE IF NOT EXISTS `productos_categorias` (
   `idProducto` int(11) NOT NULL,
@@ -212,12 +234,13 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickName` (`nickName`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla veganfood.usuarios: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` (`id`, `nickName`, `email`, `password`, `avatar`, `nombre`, `apellidos`, `admin`) VALUES
-	(26, 'Toni', 'toniesteso97@gmail.com', '$2y$10$yWbUHPliaAesY3zzp8aSP.Lp66GnWCSivc0rKkIHwqPOAiEdI0eUC', 'Toni.jpeg', 'Toni', 'Toni', 0);
+	(26, 'Toni', 'toniesteso97@gmail.com', '$2y$10$yWbUHPliaAesY3zzp8aSP.Lp66GnWCSivc0rKkIHwqPOAiEdI0eUC', 'Toni.jpeg', 'Toni', 'Toni', 0),
+	(38, 'qw', 'qw', '$2y$10$2sqYWARWipjFyTFVOKoTnuK9XcpCd8gI9pwXXyMOWXWXUGfLVPRuK', 'qw.jpeg', 'qw', 'qw', 0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
