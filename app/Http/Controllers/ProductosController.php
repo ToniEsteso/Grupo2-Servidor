@@ -36,6 +36,7 @@ class ProductosController extends BaseController
     }
 
     function GetBarra($producto){
+        
         $producto = Productos::Where("nombre",'like','%'. $producto.'%')->get();
 
         if(empty($producto)){
