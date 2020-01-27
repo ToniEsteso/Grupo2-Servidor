@@ -34,4 +34,16 @@ class ProductosController extends BaseController
 
         return $respuesta;
     }
+
+    function GetBarra($producto){
+        $producto = Productos::Where("nombre",'like','%'. $producto.'%')->get();
+
+        if(empty($producto)){
+            $respuesta =  config('codigosRespuesta.404');
+        } else{
+            $respuesta =  ["mensaje" => config('codigosRespuesta.200'),"rutaImagenesServer" => str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]), "data" => $producto];
+        }
+
+        return $respuesta;
+    }
 }
