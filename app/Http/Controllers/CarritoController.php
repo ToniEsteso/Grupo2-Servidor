@@ -37,7 +37,6 @@ class CarritoController extends Controller
                 'fechaCompra' => $carrito->fechaCompra,
                 'productos' => $dataProductos,
             ];
-
             $respuesta = ["mensaje" => config('codigosRespuesta.200'), "data" => $data];
         }
 
