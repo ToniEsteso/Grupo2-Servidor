@@ -29,7 +29,7 @@ Route::get('/productos', 'ProductosController@GetAll');
 
 Route::get('/productos/{producto}', 'ProductosController@Get');
 
-Route::get('/barra/{producto}', 'ProductosController@GetBarra');
+Route::get('/busqueda={producto}', 'ProductosController@GetBarra');
 
 //RECETAS
 Route::get('/recetas', 'RecetasController@GetAll');
