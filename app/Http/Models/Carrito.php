@@ -8,6 +8,6 @@ class Carrito extends Eloquent
 {
     protected $table = 'carritos';
     protected $primaryKey = 'idCarrito';
-    protected $fillable = array('idCarrito', 'idUsuario', 'fechaCompra');
+    protected $fillable = array('idCarrito', 'idUsuario', 'fechaCompra', 'estado');
     public $timestamps = false;
 }

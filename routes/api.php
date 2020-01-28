@@ -49,7 +49,8 @@ Route::get('/redessociales/{id}', 'RedesSocialesController@Get');
 // CARRITO
 Route::get('/carrito/{idUsuario}', 'CarritoController@Get');
 Route::get('/historialCarritos/{idUsuario}', 'CarritoController@HistorialCarritos');
-Route::post('/enviarCarrito', 'CarritoController@InsertarCarrito');
+Route::post('/insertarCarritoTemporal', 'CarritoController@InsertarCarrito');
+Route::post('/comprarCarrito', 'CarritoController@ComprarCarrito');
 
 //LOGIN
 Route::group([

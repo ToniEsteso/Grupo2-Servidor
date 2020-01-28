@@ -18,13 +18,22 @@ USE `veganfood`;
 
 -- Volcando estructura para tabla veganfood.carritos
 CREATE TABLE IF NOT EXISTS `carritos` (
-  `idCarrito` int(11) DEFAULT NULL,
+  `idCarrito` int(11) NOT NULL AUTO_INCREMENT,
   `idUsuario` int(11) DEFAULT NULL,
-  `fechaCompra` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `fechaCompra` datetime DEFAULT NULL,
+  `estado` varchar(250) NOT NULL DEFAULT 'temporal',
+  PRIMARY KEY (`idCarrito`),
+  KEY `fk_carritos1` (`idUsuario`),
+  CONSTRAINT `fk_carritos1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla veganfood.carritos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.carritos: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `carritos` DISABLE KEYS */;
+INSERT INTO `carritos` (`idCarrito`, `idUsuario`, `fechaCompra`, `estado`) VALUES
+	(16, 38, '2020-01-28 08:57:36', 'comprado'),
+	(17, 38, '2020-01-28 08:58:22', 'comprado'),
+	(18, 38, '2020-01-28 09:25:56', 'comprado'),
+	(19, 38, '2020-01-28 10:33:25', 'pendiente');
 /*!40000 ALTER TABLE `carritos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.categorias
@@ -143,11 +152,29 @@ INSERT INTO `productos` (`id`, `nombre`, `precio`, `descripcion`, `imagen`) VALU
 CREATE TABLE IF NOT EXISTS `productos_carrito` (
   `idProducto` int(11) DEFAULT NULL,
   `idCarrito` int(11) DEFAULT NULL,
-  `cantidad` int(11) DEFAULT NULL
+  `cantidad` int(11) DEFAULT NULL,
+  KEY `fk_productos_carrito1` (`idProducto`),
+  KEY `fk_productos_carrito2` (`idCarrito`),
+  CONSTRAINT `fk_productos_carrito1` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_productos_carrito2` FOREIGN KEY (`idCarrito`) REFERENCES `carritos` (`idCarrito`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla veganfood.productos_carrito: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.productos_carrito: ~13 rows (aproximadamente)
 /*!40000 ALTER TABLE `productos_carrito` DISABLE KEYS */;
+INSERT INTO `productos_carrito` (`idProducto`, `idCarrito`, `cantidad`) VALUES
+	(3, 16, 1),
+	(1, 16, 1),
+	(5, 16, 6),
+	(2, 17, 1),
+	(4, 17, 1),
+	(5, 17, 1),
+	(3, 17, 10),
+	(3, 18, 1),
+	(4, 18, 1),
+	(2, 18, 1),
+	(5, 18, 6),
+	(2, 19, 1),
+	(3, 19, 1);
 /*!40000 ALTER TABLE `productos_carrito` ENABLE KEYS */;
 
 -- Volcando estructura para tabla veganfood.productos_categorias
@@ -234,13 +261,15 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickName` (`nickName`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla veganfood.usuarios: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla veganfood.usuarios: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` (`id`, `nickName`, `email`, `password`, `avatar`, `nombre`, `apellidos`, `admin`) VALUES
 	(26, 'Toni', 'toniesteso97@gmail.com', '$2y$10$yWbUHPliaAesY3zzp8aSP.Lp66GnWCSivc0rKkIHwqPOAiEdI0eUC', 'Toni.jpeg', 'Toni', 'Toni', 0),
-	(38, 'qw', 'qw', '$2y$10$2sqYWARWipjFyTFVOKoTnuK9XcpCd8gI9pwXXyMOWXWXUGfLVPRuK', 'qw.jpeg', 'qw', 'qw', 0);
+	(38, 'qw', 'qw', '$2y$10$2sqYWARWipjFyTFVOKoTnuK9XcpCd8gI9pwXXyMOWXWXUGfLVPRuK', 'qw.jpeg', 'qw', 'qw', 0),
+	(39, 'pok', 'pok', '$2y$10$xfNOCjQI0UG//xRLk6u5x.G8GXrwaNbzIR6yGSoMbxml4JWuS.Gc6', 'pok.jpeg', 'pok', 'pok', 0),
+	(40, 'Logongas', 'Logongas@BEM.es', '$2y$10$fDOZI/gaQgv7A57UHGPEcOcV.cQKwnSQRIP7PWbSlBufVoU3CY5Hq', 'Logongas.jpeg', 'Lorenzo', 'González Gascón', 0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

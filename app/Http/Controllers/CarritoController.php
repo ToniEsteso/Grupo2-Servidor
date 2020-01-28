@@ -5,17 +5,40 @@ namespace App\Http\Controllers;
 use App\Http\Models\Carrito;
 use App\Http\Models\Productos;
 use App\Http\Models\Producto_Carrito;
+use Illuminate\Support\Facades\Storage;
 
 class CarritoController extends Controller
 {
     public function Get($idUsuario)
     {
-        $carrito = Carrito::Where("idUsuario", $idUsuario)->get();
+        $carrito = Carrito::where([
+            ['idUsuario', $idUsuario],
+            ['estado', 'pendiente'],
+        ])->first();
 
-        if (empty($carrito)) {
+        if ($carrito == null) {
             $respuesta = config('codigosRespuesta.404');
         } else {
-            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "data" => $carrito];
+            $productosCarrito = Producto_Carrito::where('idCarrito', $carrito->idCarrito)->get();
+            $dataProductos = array();
+            foreach ($productosCarrito as $prod) {
+                $producto = Productos::where('id', $prod->idProducto)->get()[0];
+                $dataProductos[] = [
+                    'id' => $producto->id,
+                    'nombre' => $producto->nombre,
+                    'precio' => $producto->precio,
+                    'descripcion' => $producto->descripcion,
+                    'imagen' => str_replace("\\", "/", explode("public", Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]) . $producto->imagen,
+                    'unidades' => $prod->cantidad,
+                ];
+            }
+            $data[] = [
+                'idUsuario' => $idUsuario,
+                'fechaCompra' => $carrito->fechaCompra,
+                'productos' => $dataProductos,
+            ];
+
+            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "data" => $data];
         }
 
         return $respuesta;
@@ -35,7 +58,7 @@ class CarritoController extends Controller
                     'nombre' => $producto->nombre,
                     'precio' => $producto->precio,
                     'descripcion' => $producto->descripcion,
-                    'imagen' => $producto->imagen,
+                    'imagen' => str_replace("\\", "/", explode("public", Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]) . $producto->imagen,
                     'unidades' => $prod->cantidad,
                 ];
             }
@@ -67,20 +90,56 @@ class CarritoController extends Controller
         if ($credentials['idUsuario'] == 'invitado') {
             $respuesta = config('codigosRespuesta.404');
         } else {
-            //TABLE CARRITOS
-            $carrito = new Carrito();
-            $carrito->idUsuario = $credentials["idUsuario"];
-            $carrito->fechaCompra = $credentials["fechaCompra"];
-            $carrito->save();
+            //comprobar si ya tiene un carrito
+            $carrito = Carrito::where([
+                ['idUsuario', $credentials['idUsuario']],
+                ['estado', 'pendiente'],
+            ])->first();
 
-            //TABLA PRODUCTOS_CARRITO
-            foreach ($productos as $key) {
-                $productoCarrito = new Producto_Carrito();
-                $productoCarrito->idProducto = $key["id"];
-                $productoCarrito->idCarrito = $carrito->idCarrito;
-                $productoCarrito->cantidad = $key["unidades"];
-                $productoCarrito->save();
+            if ($carrito) {
+                echo 'existe un carrito pendiente';
+                $carrito->estado = 'pendiente';
+                $carrito->fechaCompra = $credentials["fechaCompra"];
+                $carrito->save();
+
+                //TABLA PRODUCTOS_CARRITO
+                Producto_Carrito::where('idCarrito', $carrito->idCarrito)->delete();
+                foreach ($productos as $key) {
+                    $productoCarrito = new Producto_Carrito();
+                    $productoCarrito->idProducto = $key["id"];
+                    $productoCarrito->idCarrito = $carrito->idCarrito;
+                    $productoCarrito->cantidad = $key["unidades"];
+                    $productoCarrito->save();
+                }
+            } else {
+                echo 'no tiene un carrito pendiente';
+                $carrito = new Carrito();
+                $carrito->idUsuario = $credentials["idUsuario"];
+                $carrito->estado = 'pendiente';
+                $carrito->fechaCompra = $credentials["fechaCompra"];
+                $carrito->save();
+
+                //TABLA PRODUCTOS_CARRITO
+                foreach ($productos as $key) {
+                    $productoCarrito = new Producto_Carrito();
+                    $productoCarrito->idProducto = $key["id"];
+                    $productoCarrito->idCarrito = $carrito->idCarrito;
+                    $productoCarrito->cantidad = $key["unidades"];
+                    $productoCarrito->save();
+                }
             }
         }
+    }
+    public function ComprarCarrito()
+    {
+        $credentials = request(['idUsuario', 'fechaCompra']);
+
+        $carrito = Carrito::where([
+            ['idUsuario', $credentials['idUsuario']],
+            ['estado', 'pendiente'],
+        ])->first();
+
+        $carrito->estado = 'comprado';
+        $carrito->save();
     }
 }
