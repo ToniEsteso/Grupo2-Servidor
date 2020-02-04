@@ -84,7 +84,10 @@ class CarritoController extends Controller
         $credentials = request(['idUsuario', 'fechaCompra', "productos"]);
         $idUsuario = $credentials['idUsuario'];
         $fechaCompra = $credentials['fechaCompra'];
-        $productos = $credentials['productos'];
+        try {
+            $productos = $credentials['productos'];
+        } catch (\Throwable $th) {
+        }
 
         if ($credentials['idUsuario'] == 'invitado') {
             $respuesta = config('codigosRespuesta.404');
