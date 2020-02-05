@@ -20,12 +20,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //CATEGORIAS
 Route::get('/categorias', 'CategoriasController@GetAll');
 
+Route::post('/categorias/nuevo', 'CategoriasController@anyadirCategoria');
+
 Route::get('/categorias/{categoria}', 'CategoriasController@Get');
 
 Route::get('/categorias/{categoria}/productos', 'CategoriasController@ProductosPorCategoria');
 
 //PRODUCTOS
 Route::get('/productos', 'ProductosController@GetAll');
+
+Route::post('/productos/nuevo', 'ProductosController@anyadirProducto');
 
 Route::get('/productos/{producto}', 'ProductosController@Get');
 
