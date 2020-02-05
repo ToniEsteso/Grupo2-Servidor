@@ -4,7 +4,9 @@ return [
 
     "200" => "Todo correcto",
 
-    "404" => "La página no funciona", 
+    "400" => "Error: No existe carrito temporal",
 
-    "500" => "Error del servidor"
+    "404" => "Error: La página no funciona",
+
+    "500" => "Error: Error del servidor"
 ];

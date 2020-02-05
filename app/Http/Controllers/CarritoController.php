@@ -68,7 +68,7 @@ class CarritoController extends Controller
             ];
         }
         if (empty($carritos)) {
-            $respuesta = config('codigosRespuesta.404');
+            $respuesta = ["Error" => config('codigosRespuesta.400')];
         } else {
             // DEVOLVER TODOS LOS CARRITOS
             $respuesta = [
@@ -84,7 +84,10 @@ class CarritoController extends Controller
         $credentials = request(['idUsuario', 'fechaCompra', "productos"]);
         $idUsuario = $credentials['idUsuario'];
         $fechaCompra = $credentials['fechaCompra'];
-        $productos = $credentials['productos'];
+        try {
+            $productos = $credentials['productos'];
+        } catch (\Throwable $th) {
+        }
 
         if ($credentials['idUsuario'] == 'invitado') {
             $respuesta = config('codigosRespuesta.404');
@@ -137,8 +140,12 @@ class CarritoController extends Controller
             ['idUsuario', $credentials['idUsuario']],
             ['estado', 'pendiente'],
         ])->first();
-
-        $carrito->estado = 'comprado';
-        $carrito->save();
+        try {
+            $carrito->estado = 'comprado';
+            $carrito->save();
+        } catch (\Throwable $th) {
+            $respuesta = ["error" => config('codigosRespuesta.401')];
+            return $respuesta;
+        }
     }
 }
