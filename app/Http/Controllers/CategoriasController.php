@@ -93,4 +93,16 @@ class CategoriasController extends BaseController
         }
 
     }
+    public function ProductosCategoria(){
+        $datos = DB::table('categorias')
+        ->join('productos_categorias', 'categorias.id', '=', 'productos_categorias.idCategoria')
+        ->select(['categorias.nombre', DB::raw('COUNT(*) as numProductos')])
+            ->groupBy('categorias.nombre')
+            ->get();
+
+            $respuesta = [
+                "mensaje" => config('codigosRespuesta.200'),
+                "data" => $datos];
+                return $respuesta;
+    }
 }

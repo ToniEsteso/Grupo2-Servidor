@@ -142,8 +142,6 @@ trait ResponseTrait
     /**
      * Throws the response in a HttpResponseException instance.
      *
-     * @return void
-     *
      * @throws \Illuminate\Http\Exceptions\HttpResponseException
      */
     public function throwResponse()

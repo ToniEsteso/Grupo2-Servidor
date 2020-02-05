@@ -148,4 +148,14 @@ class CarritoController extends Controller
             return $respuesta;
         }
     }
+
+    public function numeroCompras()
+    {
+        $numCompras = Carrito::where('estado', 'comprado')->count();
+        $respuesta = [
+            "mensaje" => config('codigosRespuesta.200'),
+            "data" => $numCompras];
+
+            return $respuesta;
+    }
 }

@@ -50,7 +50,6 @@ return [
     'from_now' => 'Якин :time ичида',
     'after' => ':time пас аз он',
     'before' => ':time пеш аз он',
-    'diff_now' => 'hozir',
     'diff_yesterday' => 'Кеча',
     'diff_tomorrow' => 'Эртага',
     'formats' => [

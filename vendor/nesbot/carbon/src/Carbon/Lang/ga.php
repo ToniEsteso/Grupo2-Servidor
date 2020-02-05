@@ -39,7 +39,6 @@ return [
     'from_now' => 'i :time',
     'after' => ':time tar éis',
     'before' => ':time roimh',
-    'diff_now' => 'anois',
     'diff_yesterday' => 'inné',
     'diff_tomorrow' => 'amárach',
     'formats' => [

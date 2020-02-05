@@ -12,7 +12,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'getNumeroUsuarios']]);
     }
 
     /**
@@ -90,7 +90,7 @@ class AuthController extends Controller
             $usuario->password = Hash::make($credentials["password1"]);
 
 	    $nombreImagen = $this->subirImagen($credentials["nickName"]);
-	    
+
             $usuario->avatar = $nombreImagen;
             if ($nombreImagen != null) {
                 $usuario->save();
@@ -146,5 +146,15 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user(),
         ]);
+    }
+
+    public function getNumeroUsuarios()
+    {
+        $numUsuarios = User::count();
+        $respuesta = [
+            "mensaje" => config('codigosRespuesta.200'),
+            "data" => $numUsuarios];
+
+            return $respuesta;
     }
 }

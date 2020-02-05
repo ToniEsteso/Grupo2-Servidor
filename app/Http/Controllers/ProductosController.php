@@ -89,4 +89,15 @@ class ProductosController extends BaseController
             return null;
         }
     }
+
+
+    public function numeroProductos()
+    {
+        $numProductos = Productos::count();
+        $respuesta = [
+            "mensaje" => config('codigosRespuesta.200'),
+            "data" => $numProductos];
+
+            return $respuesta;
+    }
 }

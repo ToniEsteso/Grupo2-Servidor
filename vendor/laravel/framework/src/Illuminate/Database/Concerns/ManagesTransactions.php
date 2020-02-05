@@ -171,9 +171,9 @@ trait ManagesTransactions
             $this->getPdo()->commit();
         }
 
-        $this->fireConnectionEvent('committed');
-
         $this->transactions = max(0, $this->transactions - 1);
+
+        $this->fireConnectionEvent('committed');
     }
 
     /**
@@ -255,8 +255,7 @@ trait ManagesTransactions
     /**
      * Handle an exception from a rollback.
      *
-     * @param  \Exception  $e
-     * @return void
+     * @param \Exception  $e
      *
      * @throws \Exception
      */

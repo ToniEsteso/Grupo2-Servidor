@@ -22,4 +22,14 @@ class RecetasController extends BaseController
 
        return $respuesta;
     }
+
+    public function numeroRecetas()
+    {
+        $numRecetas = Recetas::count();
+        $respuesta = [
+            "mensaje" => config('codigosRespuesta.200'),
+            "data" => $numRecetas];
+
+            return $respuesta;
+    }
 }

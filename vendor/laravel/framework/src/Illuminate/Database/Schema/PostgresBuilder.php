@@ -77,8 +77,6 @@ class PostgresBuilder extends Builder
 
     /**
      * Drop all types from the database.
-     *
-     * @return void
      */
     public function dropAllTypes()
     {

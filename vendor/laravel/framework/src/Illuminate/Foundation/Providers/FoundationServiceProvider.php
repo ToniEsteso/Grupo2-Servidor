@@ -19,8 +19,6 @@ class FoundationServiceProvider extends AggregateServiceProvider
 
     /**
      * Boot the service provider.
-     *
-     * @return void
      */
     public function boot()
     {

@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //CATEGORIAS
 Route::get('/categorias', 'CategoriasController@GetAll');
 
+Route::get('/categorias/productosCategoria', 'CategoriasController@ProductosCategoria');
+
 Route::post('/categorias/nuevo', 'CategoriasController@anyadirCategoria');
 
 Route::get('/categorias/{categoria}', 'CategoriasController@Get');
@@ -29,6 +31,8 @@ Route::get('/categorias/{categoria}/productos', 'CategoriasController@ProductosP
 //PRODUCTOS
 Route::get('/productos', 'ProductosController@GetAll');
 
+Route::get('/productos/numeroProductos', 'ProductosController@NumeroProductos');
+
 Route::post('/productos/nuevo', 'ProductosController@anyadirProducto');
 
 Route::get('/productos/{producto}', 'ProductosController@Get');
@@ -37,6 +41,8 @@ Route::get('/busqueda={producto}', 'ProductosController@GetBarra');
 
 //RECETAS
 Route::get('/recetas', 'RecetasController@GetAll');
+
+Route::get('/recetas/numeroRecetas', 'RecetasController@NumeroRecetas');
 
 //CAROUSEL
 // Route::get('/carousel', 'CarouselController@GetAll');
@@ -51,15 +57,19 @@ Route::get('/redessociales', 'RedesSocialesController@GetAll');
 Route::get('/redessociales/{id}', 'RedesSocialesController@Get');
 
 // CARRITO
+Route::get('/carrito/numeroCompras', 'CarritoController@NumeroCompras');
 Route::get('/carrito/{idUsuario}', 'CarritoController@Get');
 Route::get('/historialCarritos/{idUsuario}', 'CarritoController@HistorialCarritos');
 Route::post('/insertarCarritoTemporal', 'CarritoController@InsertarCarrito');
 Route::post('/comprarCarrito', 'CarritoController@ComprarCarrito');
 
 //LOGIN
+
+
 Route::group([
     'prefix' => 'auth',
 ], function () {
+    Route::get('numeroUsuarios', 'AuthController@getNumeroUsuarios');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');

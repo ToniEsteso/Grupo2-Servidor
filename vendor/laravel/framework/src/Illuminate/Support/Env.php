@@ -34,7 +34,7 @@ class Env
     /**
      * Enable the putenv adapter.
      *
-     * @return void
+     * @var bool
      */
     public static function enablePutenv()
     {
@@ -46,7 +46,7 @@ class Env
     /**
      * Disable the putenv adapter.
      *
-     * @return void
+     * @var bool
      */
     public static function disablePutenv()
     {

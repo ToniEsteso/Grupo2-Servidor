@@ -213,8 +213,8 @@ trait InteractsWithInput
      * Retrieve an input item from the request.
      *
      * @param  string|null  $key
-     * @param  mixed  $default
-     * @return mixed
+     * @param  string|array|null  $default
+     * @return string|array|null
      */
     public function input($key = null, $default = null)
     {

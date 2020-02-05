@@ -22,13 +22,9 @@ class PhpRedisConnector implements Connector
      */
     public function connect(array $config, array $options)
     {
-        $connector = function () use ($config, $options) {
-            return $this->createClient(array_merge(
-                $config, $options, Arr::pull($config, 'options', [])
-            ));
-        };
-
-        return new PhpRedisConnection($connector(), $connector);
+        return new PhpRedisConnection($this->createClient(array_merge(
+            $config, $options, Arr::pull($config, 'options', [])
+        )));
     }
 
     /**
