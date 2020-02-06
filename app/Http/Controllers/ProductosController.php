@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Models\Productos;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductosController extends BaseController
@@ -90,7 +91,6 @@ class ProductosController extends BaseController
         }
     }
 
-
     public function numeroProductos()
     {
         $numProductos = Productos::count();
@@ -98,6 +98,41 @@ class ProductosController extends BaseController
             "mensaje" => config('codigosRespuesta.200'),
             "data" => $numProductos];
 
-            return $respuesta;
+        return $respuesta;
+    }
+
+    public function productosMasComprados()
+    {
+        // SELECT categorias.nombre, SUM(cantidad)
+        // FROM carritos
+        // INNER JOIN productos_carrito
+        // INNER JOIN productos
+        // INNER JOIN productos_categorias
+        // INNER JOIN categorias
+
+        // ON carritos.idCarrito = productos_carrito.idCarrito
+        // AND productos_carrito.idProducto = productos.id
+        // AND productos.id = productos_categorias.idProducto
+        // AND productos_categorias.idCategoria = categorias.id
+
+        // WHERE carritos.estado = "comprado"
+
+        // GROUP BY idCategoria
+
+        $productosMasComprados = DB::table('productos_carrito')
+            ->join('productos', 'productos_carrito.idProducto', '=', 'productos.id')
+            ->join('carritos', 'productos_carrito.idCarrito', "=", "carritos.idCarrito")
+            ->select(['productos.*', DB::raw('SUM(productos_carrito.cantidad) as numVendidos')])
+            ->where("carritos.estado", "comprado")
+            ->groupBy('productos.nombre')
+            ->orderBy('numVendidos', 'desc')
+            ->limit(3)
+            ->get();
+
+        $respuesta = [
+            "mensaje" => config('codigosRespuesta.200'),
+            "data" => $productosMasComprados];
+
+        return $respuesta;
     }
 }

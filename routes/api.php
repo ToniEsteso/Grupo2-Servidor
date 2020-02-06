@@ -33,6 +33,8 @@ Route::get('/productos', 'ProductosController@GetAll');
 
 Route::get('/productos/numeroProductos', 'ProductosController@NumeroProductos');
 
+Route::get('/productos/productosMasComprados', 'ProductosController@productosMasComprados');
+
 Route::post('/productos/nuevo', 'ProductosController@anyadirProducto');
 
 Route::get('/productos/{producto}', 'ProductosController@Get');

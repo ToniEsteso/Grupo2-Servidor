@@ -93,16 +93,28 @@ class CategoriasController extends BaseController
         }
 
     }
-    public function ProductosCategoria(){
-        $datos = DB::table('categorias')
-        ->join('productos_categorias', 'categorias.id', '=', 'productos_categorias.idCategoria')
-        ->select(['categorias.nombre', DB::raw('COUNT(*) as numProductos')])
-            ->groupBy('categorias.nombre')
-            ->get();
+    public function ProductosCategoria()
+    {
+        $categoriasMasCompradas = DB::select(DB::raw('SELECT categorias.nombre, SUM(cantidad) as numProductos
+        FROM carritos
+        INNER JOIN productos_carrito
+        INNER JOIN productos
+        INNER JOIN productos_categorias
+        INNER JOIN categorias
 
-            $respuesta = [
-                "mensaje" => config('codigosRespuesta.200'),
-                "data" => $datos];
-                return $respuesta;
+        ON carritos.idCarrito = productos_carrito.idCarrito
+        AND productos_carrito.idProducto = productos.id
+        AND productos.id = productos_categorias.idProducto
+        AND productos_categorias.idCategoria = categorias.id
+
+        WHERE carritos.estado = "comprado"
+
+        GROUP BY idCategoria
+        '));
+
+        $respuesta = [
+            "mensaje" => config('codigosRespuesta.200'),
+            "data" => $categoriasMasCompradas];
+        return $respuesta;
     }
 }
