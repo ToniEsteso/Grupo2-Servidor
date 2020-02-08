@@ -72,8 +72,11 @@ class ProductosController extends BaseController
         }
     }
 
-    public function subirImagen($nick)
+    public function subirImagen($nick = null)
     {
+        var_dump($_FILES);
+        $credentials = request(['imagen']);
+        $nick = $credentials["imagen"];
         $dir_subida = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]);
         // $dir_subida = '/var/www/html/public/'.str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]);
 
