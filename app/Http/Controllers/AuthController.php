@@ -68,6 +68,9 @@ class AuthController extends Controller
     public function register()
     {
         $credentials = request(['nombre', 'apellidos', 'email', 'nickName', 'password1', 'password2', 'avatar']);
+        echo "credentials" ;
+        var_dump($credentials);
+        echo "credentials" ;
         foreach ($credentials as $key => $value) {
             $key = strip_tags($key);
         }
@@ -88,6 +91,7 @@ class AuthController extends Controller
             $usuario->email = $credentials["email"];
             $usuario->nickName = $credentials["nickName"];
             $usuario->password = Hash::make($credentials["password1"]);
+            echo $credentials["nickName"];
 
 	    $nombreImagen = $this->subirImagen($credentials["nickName"]);
 
@@ -104,8 +108,8 @@ class AuthController extends Controller
 
     public function subirImagen($nick)
     {
-            $dir_subida = public_path() .str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
-            // $dir_subida = '/var/www/html/public/'.str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
+        $dir_subida = public_path() .str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
+        // $dir_subida = '/var/www/html/public/'.str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
 
         $tipos = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/PNG', 'image/JPEG', 'image/JPG');
 

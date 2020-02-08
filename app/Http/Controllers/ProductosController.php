@@ -51,32 +51,33 @@ class ProductosController extends BaseController
     public function anyadirProducto()
     {
         $credentials = request(['nombre', 'precio', 'descripcion', 'imagen']);
+        echo "credentials";
+        var_dump($credentials);
+        echo "anyadirProducto";
         foreach ($credentials as $key => $value) {
             $key = strip_tags($key);
         }
 
         //insertar el usuario
         $producto = new Productos();
+        var_dump($producto);
         $producto->nombre = $credentials["nombre"];
         $producto->precio = $credentials["precio"];
         $producto->descripcion = $credentials["descripcion"];
 
-        $nombreImagen = $this->subirImagen($credentials["imagen"]);
+        $nombreImagen = $this->subirImagen($credentials["nombre"]);
         $producto->imagen = $nombreImagen;
 
         if ($nombreImagen != null) {
-            $usuario->save();
-            return response()->json(['usuario' => $usuario]);
+            $producto->save();
+            return response()->json(['producto' => $producto]);
         } else {
             return response()->json(['mensaje' => "Vas a engañar a otro"]);
         }
     }
 
-    public function subirImagen($nick = null)
+    public function subirImagen($nick)
     {
-        var_dump($_FILES);
-        $credentials = request(['imagen']);
-        $nick = $credentials["imagen"];
         $dir_subida = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]);
         // $dir_subida = '/var/www/html/public/'.str_replace("\\", "/", explode("public",Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix())[1]);
 
