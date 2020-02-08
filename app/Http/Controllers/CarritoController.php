@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Models\Carrito;
 use App\Http\Models\Productos;
 use App\Http\Models\Producto_Carrito;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CarritoController extends Controller
@@ -157,5 +158,24 @@ class CarritoController extends Controller
             "data" => $numCompras];
 
             return $respuesta;
+    }
+    public function ResumenIngresos(){
+        $resumenIngresos = DB::SELECT(DB::raw("SELECT SUM(productos.precio*productos_carrito.cantidad) as 'ingresos', DATE_FORMAT(carritos.fechaCompra, '%Y/%m') AS 'fecha'
+        FROM productos
+        INNER JOIN productos_carrito
+        INNER JOIN carritos
+        ON productos.id = productos_carrito.idProducto
+        AND productos_carrito.idCarrito = carritos.idCarrito
+        WHERE carritos.estado = 'comprado'
+        AND carritos.fechaCompra BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR) AND CURRENT_DATE
+        GROUP BY fecha
+        "));
+
+        $respuesta = [
+            "mensaje" => config('codigosRespuesta.200'),
+            "data" => $resumenIngresos];
+
+        return $respuesta;
+
     }
 }
