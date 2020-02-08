@@ -57,10 +57,16 @@ Route::get('/carousel', 'CarouselController@GetImagenesPromocion');
 //REDES SOCIALES
 Route::get('/redessociales', 'RedesSocialesController@GetAll');
 
+Route::post('/redessociales', 'RedesSocialesController@CrearRedSocial');
+
 Route::get('/redessociales/{id}', 'RedesSocialesController@Get');
+Route::delete('/redessociales/{id}', 'RedesSocialesController@BorrarRedSocial');
+Route::put('/redessociales/{id}', 'RedesSocialesController@ModificarRedSocial');
+
 
 // CARRITO
 Route::get('/carrito/numeroCompras', 'CarritoController@NumeroCompras');
+Route::get('/carrito/resumenIngresos', 'CarritoController@ResumenIngresos');
 Route::get('/carrito/{idUsuario}', 'CarritoController@Get');
 Route::get('/historialCarritos/{idUsuario}', 'CarritoController@HistorialCarritos');
 Route::post('/insertarCarritoTemporal', 'CarritoController@InsertarCarrito');
