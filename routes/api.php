@@ -22,7 +22,7 @@ Route::get('/categorias', 'CategoriasController@GetAll');
 
 Route::get('/categorias/productosCategoria', 'CategoriasController@ProductosCategoria');
 
-Route::post('/categorias/nuevo', 'CategoriasController@anyadirCategoria');
+Route::post('/categorias/nueva', 'CategoriasController@anyadirCategoria');
 
 Route::get('/categorias/{categoria}', 'CategoriasController@Get');
 
@@ -45,6 +45,8 @@ Route::get('/busqueda={producto}', 'ProductosController@GetBarra');
 Route::get('/recetas', 'RecetasController@GetAll');
 
 Route::get('/recetas/numeroRecetas', 'RecetasController@NumeroRecetas');
+
+Route::post('/recetas/nueva', 'RecetasController@anyadirReceta');
 
 //CAROUSEL
 // Route::get('/carousel', 'CarouselController@GetAll');

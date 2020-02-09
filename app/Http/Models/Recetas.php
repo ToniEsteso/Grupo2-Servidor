@@ -8,6 +8,6 @@ class Recetas extends Eloquent
 {
     protected $table = 'recetas';
     protected $primarykey = 'id';
-    protected $fillable = array('id', 'nombre', 'imagen', 'enlace');
+    protected $fillable = array('id', 'nombre', 'enlace', 'imagen');
     public $timestamps = false;
 }
