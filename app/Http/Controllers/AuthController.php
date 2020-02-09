@@ -12,7 +12,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'getNumeroUsuarios']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'getNumeroUsuarios', 'getAll']]);
     }
 
     /**
@@ -160,5 +160,19 @@ class AuthController extends Controller
             "data" => $numUsuarios];
 
             return $respuesta;
+    }
+
+    public function getAll()
+    {
+        $usuarios = User::get();
+        var_dump($usuarios);
+
+        if (empty($usuarios)) {
+            $respuesta = config('codigosRespuesta.404');
+        } else {
+            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "rutaImagenesServer" => str_replace("\\", "/", explode("public", Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]), "data" => $usuarios];
+        }
+
+        return $respuesta;
     }
 }
