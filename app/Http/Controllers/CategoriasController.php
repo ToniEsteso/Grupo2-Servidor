@@ -61,14 +61,14 @@ class CategoriasController extends BaseController
         //insertar el usuario
         $categoria = new Categorias();
         $categoria->nombre = $credentials["nombre"];
-        $categoria->precio = $credentials["icono"];
+        $categoria->icono = $credentials["icono"];
 
-        $nombreImagen = $this->subirImagen($credentials["imagen"]);
+        $nombreImagen = $this->subirImagen($credentials["nombre"]);
         $categoria->imagen = $nombreImagen;
 
         if ($nombreImagen != null) {
-            $usuario->save();
-            return response()->json(['usuario' => $usuario]);
+            $categoria->save();
+            return response()->json(['categoria' => $categoria]);
         } else {
             return response()->json(['mensaje' => "Vas a engañar a otro"]);
         }
@@ -83,6 +83,7 @@ class CategoriasController extends BaseController
 
         if (in_array($_FILES['imagen']['type'], $tipos)) {
             $fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['imagen']['type'])[1];
+            var_dump($fichero_subido);
             if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
                 return $nick . "." . explode("/", $_FILES['imagen']['type'])[1];
             } else {

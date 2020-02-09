@@ -85,6 +85,7 @@ class ProductosController extends BaseController
 
         if (in_array($_FILES['imagen']['type'], $tipos)) {
             $fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['imagen']['type'])[1];
+            var_dump($fichero_subido);
             if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
                 return $nick . "." . explode("/", $_FILES['imagen']['type'])[1];
             } else {
