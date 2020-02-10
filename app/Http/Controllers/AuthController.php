@@ -68,9 +68,9 @@ class AuthController extends Controller
     public function register()
     {
         $credentials = request(['nombre', 'apellidos', 'email', 'nickName', 'password1', 'password2', 'avatar']);
-        echo "credentials" ;
+        echo "credentials";
         var_dump($credentials);
-        echo "credentials" ;
+        echo "credentials";
         foreach ($credentials as $key => $value) {
             $key = strip_tags($key);
         }
@@ -93,7 +93,7 @@ class AuthController extends Controller
             $usuario->password = Hash::make($credentials["password1"]);
             echo $credentials["nickName"];
 
-	    $nombreImagen = $this->subirImagen($credentials["nickName"]);
+            $nombreImagen = $this->subirImagen($credentials["nickName"]);
 
             $usuario->avatar = $nombreImagen;
             if ($nombreImagen != null) {
@@ -108,13 +108,13 @@ class AuthController extends Controller
 
     public function subirImagen($nick)
     {
-        $dir_subida = public_path() .str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
+        $dir_subida = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
         // $dir_subida = '/var/www/html/public/'.str_replace("\\", "/", explode("public",Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]);
 
         $tipos = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/PNG', 'image/JPEG', 'image/JPG');
 
         if (in_array($_FILES['avatar']['type'], $tipos)) {
-		$fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
+            $fichero_subido = $dir_subida . $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
             if (move_uploaded_file($_FILES['avatar']['tmp_name'], $fichero_subido)) {
                 return $nick . "." . explode("/", $_FILES['avatar']['type'])[1];
             } else {
@@ -159,18 +159,20 @@ class AuthController extends Controller
             "mensaje" => config('codigosRespuesta.200'),
             "data" => $numUsuarios];
 
-            return $respuesta;
+        return $respuesta;
     }
 
     public function getAll()
     {
         $usuarios = User::get();
-        var_dump($usuarios);
 
         if (empty($usuarios)) {
             $respuesta = config('codigosRespuesta.404');
         } else {
-            $respuesta = ["mensaje" => config('codigosRespuesta.200'), "rutaImagenesServer" => str_replace("\\", "/", explode("public", Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]), "data" => $usuarios];
+            $respuesta = [
+                "mensaje" => config('codigosRespuesta.200'),
+                "rutaImagenesServer" => str_replace("\\", "/", explode("public", Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix())[1]),
+                "data" => $usuarios];
         }
 
         return $respuesta;

@@ -22,9 +22,9 @@ class CategoriasController extends BaseController
         return $respuesta;
     }
 
-    public function Get($categoria)
+    public function Get($nombreCategoria)
     {
-        $cat = Categorias::Where("nombre", $categoria)->get();
+        $cat = Categorias::Where("nombre", $nombreCategoria)->get();
 
         if (empty($cat)) {
             $respuesta = config('codigosRespuesta.404');
@@ -116,6 +116,14 @@ class CategoriasController extends BaseController
         $respuesta = [
             "mensaje" => config('codigosRespuesta.200'),
             "data" => $categoriasMasCompradas];
+        return $respuesta;
+    }
+
+    public function BorrarCategoria($nombreCategoria)
+    {
+        $categoriaBorrar = Categorias::where("nombre", $nombreCategoria)->get()[0];
+        $categoriaBorrar->delete();
+        $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrado exitosamente.");
         return $respuesta;
     }
 }

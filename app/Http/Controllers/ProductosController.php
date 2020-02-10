@@ -140,4 +140,10 @@ class ProductosController extends BaseController
 
         return $respuesta;
     }
+
+
+    public function BorrarProducto()
+    {
+
+    }
 }

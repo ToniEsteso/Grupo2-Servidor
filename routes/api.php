@@ -28,6 +28,8 @@ Route::get('/categorias/{categoria}', 'CategoriasController@Get');
 
 Route::get('/categorias/{categoria}/productos', 'CategoriasController@ProductosPorCategoria');
 
+Route::delete('/categorias/{categoria}', 'CategoriasController@BorrarCategoria');
+
 //PRODUCTOS
 Route::get('/productos', 'ProductosController@GetAll');
 
@@ -40,6 +42,8 @@ Route::post('/productos/nuevo', 'ProductosController@anyadirProducto');
 Route::get('/productos/{producto}', 'ProductosController@Get');
 
 Route::get('/busqueda={producto}', 'ProductosController@GetBarra');
+
+Route::delete('/productos/{producto}', 'ProductosController@BorrarProducto');
 
 //RECETAS
 Route::get('/recetas', 'RecetasController@GetAll');
@@ -64,7 +68,6 @@ Route::get('/redessociales/{id}', 'RedesSocialesController@Get');
 Route::delete('/redessociales/{id}', 'RedesSocialesController@BorrarRedSocial');
 Route::put('/redessociales/{id}', 'RedesSocialesController@ModificarRedSocial');
 
-
 // CARRITO
 Route::get('/carrito/numeroCompras', 'CarritoController@NumeroCompras');
 Route::get('/carrito/resumenIngresos', 'CarritoController@ResumenIngresos');
@@ -75,7 +78,6 @@ Route::post('/comprarCarrito', 'CarritoController@ComprarCarrito');
 
 //LOGIN
 
-
 Route::group([
     'prefix' => 'auth',
 ], function () {
@@ -85,5 +87,5 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('register', 'AuthController@register');
-    Route::get('usuarios', 'AuthController@GetAll');
+    Route::get('usuarios', 'AuthController@getAll');
 });
