@@ -177,4 +177,13 @@ class AuthController extends Controller
 
         return $respuesta;
     }
+
+    public function borrarUsuario($idUsuario)
+    {
+        $usuario = User::find($idUsuario);
+        $usuario->delete();
+
+        $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrado exitosamente.");
+        return $respuesta;
+    }
 }
