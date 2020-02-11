@@ -43,7 +43,7 @@ Route::get('/productos/{producto}', 'ProductosController@Get');
 
 Route::get('/busqueda={producto}', 'ProductosController@GetBarra');
 
-Route::delete('/productos/{producto}', 'ProductosController@BorrarProducto');
+Route::delete('/productos/{idProducto}', 'ProductosController@BorrarProducto');
 
 //RECETAS
 Route::get('/recetas', 'RecetasController@GetAll');
@@ -79,6 +79,7 @@ Route::post('/comprarCarrito', 'CarritoController@ComprarCarrito');
 //LOGIN
 
 Route::group([
+    'middleware' => 'api',
     'prefix' => 'auth',
 ], function () {
     Route::post('me', 'AuthController@me');
