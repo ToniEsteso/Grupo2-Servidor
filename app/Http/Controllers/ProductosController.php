@@ -125,6 +125,17 @@ class ProductosController extends BaseController
     public function BorrarProducto($idProducto)
     {
         $producto = Productos::find($idProducto);
+        $rutaImagenes = Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix();
+        $mi_imagen = $rutaImagenes . $producto->imagen;
+
+        if (@getimagesize($mi_imagen)) {
+            echo "El archivo existe";
+            unlink($mi_imagen);
+        }
+        else
+        {
+            echo "El archivo no existe";
+        }
         $producto->delete();
         $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrado exitosamente.");
         return $respuesta;

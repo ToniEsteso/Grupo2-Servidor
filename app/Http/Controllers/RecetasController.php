@@ -83,4 +83,24 @@ class RecetasController extends BaseController
             return null;
         }
     }
+
+    public function BorrarReceta($idReceta){
+        $rutaImagenes = Storage::disk('public_images_recetas')->getDriver()->getAdapter()->getPathPrefix();
+        $receta = Recetas::find($idReceta);
+
+        $mi_imagen = $rutaImagenes . $receta->imagen;
+
+        if (@getimagesize($mi_imagen)) {
+            echo "El archivo existe";
+            unlink($mi_imagen);
+        }
+        else
+        {
+            echo "El archivo no existe";
+        }
+        $receta->delete();
+
+        $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrada exitosamente.");
+        return $respuesta;
+    }
 }

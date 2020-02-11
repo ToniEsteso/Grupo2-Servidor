@@ -121,6 +121,17 @@ class CategoriasController extends BaseController
     public function BorrarCategoria($nombreCategoria)
     {
         $categoriaBorrar = Categorias::where("nombre", $nombreCategoria)->get()[0];
+        $rutaImagenes = Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix();
+        $mi_imagen = $rutaImagenes . $categoriaBorrar->imagen;
+
+        if (@getimagesize($mi_imagen)) {
+            echo "El archivo existe";
+            unlink($mi_imagen);
+        }
+        else
+        {
+            echo "El archivo no existe";
+        }
         $categoriaBorrar->delete();
         $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrado exitosamente.");
         return $respuesta;

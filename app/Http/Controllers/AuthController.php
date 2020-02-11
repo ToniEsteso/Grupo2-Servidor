@@ -180,7 +180,17 @@ class AuthController extends Controller
 
     public function borrarUsuario($idUsuario)
     {
+        $rutaImagenes = Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix();
         $usuario = User::find($idUsuario);
+        $mi_imagen = $rutaImagenes . $usuario->avatar;
+        if (@getimagesize($mi_imagen)) {
+            echo "El archivo existe";
+            unlink($mi_imagen);
+        }
+        else
+        {
+            echo "El archivo no existe";
+        }
         $usuario->delete();
 
         $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrado exitosamente.");

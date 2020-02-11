@@ -52,6 +52,8 @@ Route::get('/recetas/numeroRecetas', 'RecetasController@NumeroRecetas');
 
 Route::post('/recetas/nueva', 'RecetasController@anyadirReceta');
 
+Route::delete('/recetas/{idReceta}', 'RecetasController@BorrarReceta');
+
 //CAROUSEL
 // Route::get('/carousel', 'CarouselController@GetAll');
 
