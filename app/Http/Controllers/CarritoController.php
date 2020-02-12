@@ -100,7 +100,6 @@ class CarritoController extends Controller
             ])->first();
 
             if ($carrito) {
-                echo 'existe un carrito pendiente';
                 $carrito->estado = 'pendiente';
                 $carrito->fechaCompra = $credentials["fechaCompra"];
                 $carrito->save();
@@ -115,7 +114,6 @@ class CarritoController extends Controller
                     $productoCarrito->save();
                 }
             } else {
-                echo 'no tiene un carrito pendiente';
                 $carrito = new Carrito();
                 $carrito->idUsuario = $credentials["idUsuario"];
                 $carrito->estado = 'pendiente';
@@ -150,16 +148,17 @@ class CarritoController extends Controller
         }
     }
 
-    public function numeroCompras()
+    public function NumeroCompras()
     {
         $numCompras = Carrito::where('estado', 'comprado')->count();
         $respuesta = [
             "mensaje" => config('codigosRespuesta.200'),
             "data" => $numCompras];
 
-            return $respuesta;
+        return $respuesta;
     }
-    public function ResumenIngresos(){
+    public function ResumenIngresos()
+    {
         $resumenIngresos = DB::SELECT(DB::raw("SELECT SUM(productos.precio*productos_carrito.cantidad) as 'ingresos', DATE_FORMAT(carritos.fechaCompra, '%Y/%m') AS 'fecha'
         FROM productos
         INNER JOIN productos_carrito
