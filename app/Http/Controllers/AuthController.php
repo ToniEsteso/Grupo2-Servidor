@@ -12,7 +12,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'getNumeroUsuarios', 'getAll']]);
+        $this->middleware('auth', ['except' => ['login', 'register', 'getNumeroUsuarios', 'getAll']]);
     }
 
     /**
@@ -186,9 +186,7 @@ class AuthController extends Controller
         if (@getimagesize($mi_imagen)) {
             echo "El archivo existe";
             unlink($mi_imagen);
-        }
-        else
-        {
+        } else {
             echo "El archivo no existe";
         }
         $usuario->delete();
