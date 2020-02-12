@@ -37,12 +37,12 @@ Route::delete('/categorias/{categoria}', 'CategoriasController@BorrarCategoria')
 Route::post('/recetas/nueva', 'RecetasController@anyadirReceta')->middleware('checkAdmin');
 Route::delete('/recetas/{idReceta}', 'RecetasController@BorrarReceta')->middleware('checkAdmin');
 Route::get('/categorias/productosCategoria', 'CategoriasController@ProductosCategoria')->middleware('checkAdmin');
-Route::post('/categorias/{idCategoria}', 'CategoriasController@modificarCategoria')->middleware('checkAdmin');
 
 //CATEGORIAS
 Route::get('/categorias', 'CategoriasController@GetAll');
 Route::get('/categorias/{categoria}', 'CategoriasController@Get');
 Route::get('/categorias/{categoria}/productos', 'CategoriasController@ProductosPorCategoria');
+Route::post('/categorias/{idCategoria}', 'CategoriasController@modificarCategoria');
 
 //PRODUCTOS
 Route::get('/productos', 'ProductosController@GetAll');

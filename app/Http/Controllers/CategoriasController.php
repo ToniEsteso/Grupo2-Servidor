@@ -125,12 +125,7 @@ class CategoriasController extends BaseController
         $mi_imagen = $rutaImagenes . $categoriaBorrar->imagen;
 
         if (@getimagesize($mi_imagen)) {
-            echo "El archivo existe";
             unlink($mi_imagen);
-        }
-        else
-        {
-            echo "El archivo no existe";
         }
         $categoriaBorrar->delete();
         $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrado exitosamente.");
@@ -153,7 +148,6 @@ class CategoriasController extends BaseController
         $mi_imagen = $rutaImagenes . $categoria->imagen;
 
         if($categoria->nombre != $credentials["nombre"]){
-            echo "ENTRADOOOOO";
             $extension = explode(".", $categoria->imagen)[1];
             Storage::move($rutaImagenes . $categoria->imagen, $rutaImagenes . $credentials["nombre"] . "." . $extension);
         }
@@ -161,13 +155,7 @@ class CategoriasController extends BaseController
 
         if (isset($_FILES['imagen'])) {
             if (@getimagesize($mi_imagen)) {
-
-                echo "El archivo existe";
                 unlink($mi_imagen);
-            }
-            else
-            {
-                echo "El archivo no existe";
             }
             $nombreImagen = $this->subirImagen($credentials["nombre"]);
         }
