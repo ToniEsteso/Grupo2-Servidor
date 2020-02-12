@@ -6,6 +6,7 @@ use App\Http\Models\Categorias;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class CategoriasController extends BaseController
 {
@@ -58,7 +59,6 @@ class CategoriasController extends BaseController
             $key = strip_tags($key);
         }
 
-        //insertar el usuario
         $categoria = new Categorias();
         $categoria->nombre = $credentials["nombre"];
         $categoria->icono = $credentials["icono"];
@@ -121,7 +121,7 @@ class CategoriasController extends BaseController
     public function BorrarCategoria($nombreCategoria)
     {
         $categoriaBorrar = Categorias::where("nombre", $nombreCategoria)->get()[0];
-        $rutaImagenes = Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix();
+        $rutaImagenes = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix())[1]);
         $mi_imagen = $rutaImagenes . $categoriaBorrar->imagen;
 
         if (@getimagesize($mi_imagen)) {
@@ -135,5 +135,54 @@ class CategoriasController extends BaseController
         $categoriaBorrar->delete();
         $respuesta = array("mensaje" => config('codigosRespuesta.200'), "data" => "Borrado exitosamente.");
         return $respuesta;
+    }
+
+    public function modificarCategoria($idCategoria)
+    {
+        $credentials = request(['id', 'nombre', 'icono', 'imagen']);
+        $error = false;
+
+        foreach ($credentials as $key => $value) {
+            $key = strip_tags($key);
+        }
+
+        $categoria = Categorias::find($idCategoria);
+        $nombreImagen = $categoria->imagen;
+
+        $rutaImagenes = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix())[1]);
+        $mi_imagen = $rutaImagenes . $categoria->imagen;
+
+        if($categoria->nombre != $credentials["nombre"]){
+            echo "ENTRADOOOOO";
+            $extension = explode(".", $categoria->imagen)[1];
+            Storage::move($rutaImagenes . $categoria->imagen, $rutaImagenes . $credentials["nombre"] . "." . $extension);
+        }
+
+
+        if (isset($_FILES['imagen'])) {
+            if (@getimagesize($mi_imagen)) {
+
+                echo "El archivo existe";
+                unlink($mi_imagen);
+            }
+            else
+            {
+                echo "El archivo no existe";
+            }
+            $nombreImagen = $this->subirImagen($credentials["nombre"]);
+        }
+
+        foreach ($categoria as $propiedad => $value) {
+            foreach ($credentials as $key => $val) {
+                if ($propiedad == $key) {
+                    if ($value != $val) {
+                        $categoria->$propiedad = $val;
+                    }
+                }
+            }
+        }
+        $categoria->imagen = $nombreImagen;
+        $categoria->save();
+        return response()->json(['categoria' => $categoria]);
     }
 }

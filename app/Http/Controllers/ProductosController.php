@@ -125,7 +125,7 @@ class ProductosController extends BaseController
     public function BorrarProducto($idProducto)
     {
         $producto = Productos::find($idProducto);
-        $rutaImagenes = Storage::disk('public_images_productos')->getDriver()->getAdapter()->getPathPrefix();
+        $rutaImagenes = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix())[1]);
         $mi_imagen = $rutaImagenes . $producto->imagen;
 
         if (@getimagesize($mi_imagen)) {

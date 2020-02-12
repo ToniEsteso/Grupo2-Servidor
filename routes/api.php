@@ -24,6 +24,8 @@ Route::get('/categorias/productosCategoria', 'CategoriasController@ProductosCate
 
 Route::post('/categorias/nueva', 'CategoriasController@anyadirCategoria');
 
+Route::post('/categorias/{idCategoria}', 'CategoriasController@modificarCategoria');
+
 Route::get('/categorias/{categoria}', 'CategoriasController@Get');
 
 Route::get('/categorias/{categoria}/productos', 'CategoriasController@ProductosPorCategoria');

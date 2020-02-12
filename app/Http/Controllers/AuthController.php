@@ -180,7 +180,7 @@ class AuthController extends Controller
 
     public function borrarUsuario($idUsuario)
     {
-        $rutaImagenes = Storage::disk('public_images_usuarios')->getDriver()->getAdapter()->getPathPrefix();
+        $rutaImagenes = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix())[1]);
         $usuario = User::find($idUsuario);
         $mi_imagen = $rutaImagenes . $usuario->avatar;
         if (@getimagesize($mi_imagen)) {

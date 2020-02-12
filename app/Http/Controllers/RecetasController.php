@@ -85,7 +85,7 @@ class RecetasController extends BaseController
     }
 
     public function BorrarReceta($idReceta){
-        $rutaImagenes = Storage::disk('public_images_recetas')->getDriver()->getAdapter()->getPathPrefix();
+        $rutaImagenes = public_path() . str_replace("\\", "/", explode("public", Storage::disk('public_images_categorias')->getDriver()->getAdapter()->getPathPrefix())[1]);
         $receta = Recetas::find($idReceta);
 
         $mi_imagen = $rutaImagenes . $receta->imagen;
